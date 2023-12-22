@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order: one
+  users: one
+  status: MyString
+  delivery_time: 2023-12-21 22:13:51
+
+two:
+  order: two
+  users: two
+  status: MyString
+  delivery_time: 2023-12-21 22:13:51
