@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_21_201649) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_26_194351) do
   create_table "deliveries", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "users_id", null: false
@@ -57,11 +57,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_21_201649) do
 
   create_table "orders", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "restaurant_id", null: false
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["restaurant_id"], name: "index_orders_on_restaurant_id"
+    t.integer "order_id"
+    t.datetime "time"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -109,7 +108,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_21_201649) do
   add_foreign_key "menus", "restaurants"
   add_foreign_key "order_items", "menus"
   add_foreign_key "order_items", "orders"
-  add_foreign_key "orders", "restaurants"
   add_foreign_key "orders", "users"
   add_foreign_key "restaurants", "users"
   add_foreign_key "reviews", "restaurants"

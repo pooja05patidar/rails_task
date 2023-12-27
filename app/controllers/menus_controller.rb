@@ -16,9 +16,9 @@ class MenusController < ApplicationController
     # debugger
     @id = params.require(:menu)[:restaurant_id]
     @res = Restaurant.find(@id)
-    @menu = @res.build_menu
+    @item = @res.menus.create
 
-    if @menu.save
+    if @item.save
       render json: { status: { code: 200, message: 'Menu created successfully' }, data: @menu }, status: 422
     else
       render json: { status: { code: 422, message: 'Menu creation failed', errors: @menu.errors.full_messages } }
