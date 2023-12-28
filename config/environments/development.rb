@@ -1,6 +1,15 @@
 require "active_support/core_ext/integer/time"
-
 Rails.application.configure do
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+  address: 'smtp.example.com',
+  port: 587,
+  user_name: 'patidar.wk',
+  password: '',
+  authentication: :plain,
+  enable_starttls_auto: true
+}
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time

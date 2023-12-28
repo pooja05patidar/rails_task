@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :owners
     resources :menus
     resources :orders
-    resources :order_items
+    # resources :order_items
     resources :reviews
     resources :deliveries
 
