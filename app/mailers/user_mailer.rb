@@ -1,8 +1,9 @@
 class UserMailer < ApplicationMailer
+  default from: 'patidar.wk@gmail.com'
   def welcome_email(user)
+    # debugger
     @user = user
-    mail(to: @user.email, subject: 'Welcome to Our Website') do |format|
-      format.text { render plain: 'Welcome to our website!' }
-    end
+    @url  = 'http://example.com/login'
+    mail(to: @user.email, subject: 'Welcome to Restaurants Website',body: '')
   end
 end
