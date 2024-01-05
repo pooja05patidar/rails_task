@@ -1,6 +1,7 @@
 class RestaurantsController < ApplicationController
   before_action :authenticate_user!
-  # load_and_authorize_resource
+  # before_action :check_owner_approval, only: [:new, :create]
+  load_and_authorize_resource
 
   def index
     @restaurants = Restaurant.all

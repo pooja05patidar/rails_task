@@ -1,11 +1,20 @@
 class MenusController < ApplicationController
   before_action :authenticate_user!
-  # load_and_authorize_resource
+  load_and_authorize_resource
 
   def index
     @menus = Menu.all
     render json: { status: { code: 200, message: 'Success' }, data: @menus }
   end
+
+  def filter_menu
+    search_query = params[:search_query]
+
+    @filtered_menus = Menu.filter_by_query(search_query)
+
+    render json: { status: { code: 200, message: 'Success' }, data: @filtered_menus }
+  end
+
 
   def show
     @menu = Menu.find(params[:id])

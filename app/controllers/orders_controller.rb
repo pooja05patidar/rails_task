@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  # load_and_authorize_resource
-
+  load_and_authorize_resource
+  include AddToCart
   def index
     @order_items = Order.all
     render json: { status: { code: 200, message: 'Success' }, data: @order_items }
@@ -12,6 +12,10 @@ class OrdersController < ApplicationController
     render json: { status: { code: 200, message: 'Success' }, data: @order_item }
   end
 
+  def add_to_cart
+    add_to_cart_action
+  end
+  
   def create
     # debugger
     res_id =  params.require(:order_item)[:restaurant_id]

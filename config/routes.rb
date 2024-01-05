@@ -7,10 +7,15 @@ Rails.application.routes.draw do
     resources :restaurants
     resources :owners
     resources :menus
-    resources :orders
+    # resources :orders
     # resources :order_items
     resources :reviews
     resources :deliveries
-
-resources :customers
+    get '/filter_menu', to: 'menus#filter_menu'
+    resources :customers
+    resources :orders do
+      collection do
+        post :add_to_cart
+      end
+    end
 end

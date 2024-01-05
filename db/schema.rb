@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_02_174442) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_04_201758) do
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "menu_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["menu_id"], name: "index_cart_items_on_menu_id"
+    t.index ["user_id"], name: "index_cart_items_on_user_id"
+  end
+
   create_table "deliveries", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "users_id", null: false
@@ -103,6 +113,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_02_174442) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "cart_items", "menus"
+  add_foreign_key "cart_items", "users"
   add_foreign_key "deliveries", "orders"
   add_foreign_key "deliveries", "users", column: "users_id"
   add_foreign_key "menu_items", "menus"
