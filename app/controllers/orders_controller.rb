@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   include AddToCart
   def index
     @order_items = Order.all
-    render json: { status: { code: 200, message: 'Success' }, data: @order_items }
+    # render json: { status: { code: 200, message: 'Success' }, data: @order_items }
   end
 
   def show
@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
   def add_to_cart
     add_to_cart_action
   end
-  
+
   def create
     # debugger
     res_id =  params.require(:order_item)[:restaurant_id]

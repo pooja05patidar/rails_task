@@ -1,6 +1,6 @@
 module AddToCart
   extend ActiveSupport::Concern
-2
+
   def add_to_cart_action
     menu_id = params.require(:order_item).permit(:menu_id)[:menu_id]
     quantity = params.require(:order_item).permit(:quantity)[:quantity]

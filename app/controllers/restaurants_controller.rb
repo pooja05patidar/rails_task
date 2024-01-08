@@ -4,8 +4,8 @@ class RestaurantsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @restaurants = Restaurant.all
-    render json: { status: { code: 200, message: 'Success' }, data: @restaurants }
+    # @restaurants = Restaurant.all
+    # render json: { status: { code: 200, message: 'Success' }, data: @restaurants }
   end
 
   def show

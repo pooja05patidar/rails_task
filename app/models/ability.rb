@@ -12,7 +12,7 @@ class Ability
     elsif user.admin?
       can :manage, :all
     else
-      can :read, :all
+      can :read, Restaurant
     end
   end
 end
