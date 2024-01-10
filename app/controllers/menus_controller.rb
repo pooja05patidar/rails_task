@@ -1,23 +1,20 @@
 class MenusController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_menu, only: [:show, :update, :destroy]
   load_and_authorize_resource
 
   def index
     @menus = Menu.all
-    render json: { status: { code: 200, message: 'Success' }, data: @menus }
+    # render json: { status: { code: 200, message: 'Success' }, data: @menus }
   end
 
   def filter_menu
     search_query = params[:search_query]
-
     @filtered_menus = Menu.filter_by_query(search_query)
-
     render json: { status: { code: 200, message: 'Success' }, data: @filtered_menus }
   end
 
-
   def show
-    @menu = Menu.find(params[:id])
     render json: { status: { code: 200, message: 'Success' }, data: @menu }
   end
 
@@ -35,8 +32,6 @@ class MenusController < ApplicationController
   end
 
   def update
-    @menu = Menu.find(params[:id])
-
     if @menu.update(menu_params)
       render json: { status: { code: 200, message: 'Menu updated successfully' }, data: @menu }
     else
@@ -45,12 +40,15 @@ class MenusController < ApplicationController
   end
 
   def destroy
-    @menu = Menu.find(params[:id])
     @menu.destroy
-    render json: { status: { code: 200, message: 'Menu deleted successfully' } }
+    # render json: { status: { code: 200, message: 'Menu deleted successfully' } }
   end
 
   private
+
+  def set_menu
+    @menu = Menu.find(params[:id])
+  end
 
   def menu_params
     params.require(:menu).permit(:name, :description, :price, :restaurant_id)

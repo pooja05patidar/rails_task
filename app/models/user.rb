@@ -11,21 +11,12 @@ class User < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_one :order , dependent: :destroy
   has_many :cart_items
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   enum role: { guest: 0, customer: 1, owner: 2, admin: 3 }
-  # # enum restaurant_approval: { pending: 0, approved: 1, rejected: 2 }
-
-  # validate :unique_admin, if: :admin?
-
-  # private
-
-  # def unique_admin
-  #   errors.add(:role, 'there can be only one admin') if User.admin.exists? && !persisted?
-  # end
-
 
   def jwt_payload
     super
