@@ -4,7 +4,7 @@ class MenusController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @menus = Menu.all
+    # @menus = Menu.all
     # render json: { status: { code: 200, message: 'Success' }, data: @menus }
   end
 
@@ -15,7 +15,7 @@ class MenusController < ApplicationController
   end
 
   def show
-    render json: { status: { code: 200, message: 'Success' }, data: @menu }
+    # render json: { status: { code: 200, message: 'Success' }, data: @menu }
   end
 
   def create
@@ -31,14 +31,24 @@ class MenusController < ApplicationController
     end
   end
 
+  # def update
+  #   if @menu.update(menu_params)
+  #     render json: { status: { code: 200, message: 'Menu updated successfully' }, data: @menu }
+  #   else
+  #     render json: { status: { code: 422, message: 'Menu update failed', errors: @menu.errors.full_messages } }
+  #   end
+  # end
   def update
-    if @menu.update(menu_params)
+    @id = params.require(:menu)[:restaurant_id]
+    @res = Restaurant.find(@id)
+    @item = @res.menus.update
+    if @item.save
       render json: { status: { code: 200, message: 'Menu updated successfully' }, data: @menu }
     else
       render json: { status: { code: 422, message: 'Menu update failed', errors: @menu.errors.full_messages } }
     end
   end
-
+  
   def destroy
     @menu.destroy
     # render json: { status: { code: 200, message: 'Menu deleted successfully' } }

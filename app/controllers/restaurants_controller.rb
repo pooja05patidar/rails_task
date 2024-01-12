@@ -4,8 +4,10 @@ class RestaurantsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @restaurants = Restaurant.all
+    # @restaurants = Restaurant.all
     # render json: { status: { code: 200, message: 'Success' }, data: @restaurants }
+    @q = Restaurant.ransack(params[:q])
+    @restaurants = @q.result.order(:id).per(params[:page]).per(3)
   end
 
   def show
@@ -46,17 +48,41 @@ class RestaurantsController < ApplicationController
     params.require(:restaurant).permit(:name, :description, :ratings)
   end
 end
-# cart = {
-#   "userID": 1,
-#   "items": [
-#     {
-#       itemID: "1",
-#       quantity: "1",
-#     }
-#     {
-#       itemID: "1",
-#       quantity: "1",
+
+# {
+#     "status": {
+#         "code": 200,
+#         "message": "Added to cart successfully"
 #     },
-#   ],
-#   total_price: xxx
+#     "data": {
+#         "cart_item": {
+#             "user_id": 27,
+#             "quantity": 8,
+#             "menu_id": 8,
+#             "id": 4,
+#             "created_at": "2024-01-10T18:08:17.511Z",
+#             "updated_at": "2024-01-10T21:38:36.199Z"
+#         },
+#         "total_price": "160.0",
+#         "menu": {
+#             "id": 8,
+#             "name": "Burgur",
+#             "description": "burgerb with butter",
+#             "price": "80.0"
+#         }
+#     }
 # }
+# # cart = {
+# #   "userID": 1,
+# #   "items": [
+# #     {
+# #       itemID: "1",
+# #       quantity: "1",
+# #     }
+# #     {
+# #       itemID: "2",
+# #       quantity: "2",
+# #     },
+# #   ],
+# #   total_price: xxx
+# # }

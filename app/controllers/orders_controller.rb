@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_id, only: [:show, :update, :destroy]
   load_and_authorize_resource
-  include AddToCart
+  # include AddToCart
   def index
     @order_items = Order.all
     # render json: { status: { code: 200, message: 'Success' }, data: @order_items }
@@ -14,24 +14,48 @@ class OrdersController < ApplicationController
   end
 
   def add_to_cart
-    add_to_cart_action
+    menu_id = params.require(:order_item).permit(:menu_id)[:menu_id]
+    quantity = params.require(:order_item).permit(:quantity)[:quantity]
+    menu = Menu.find(menu_id)
+    total_price = menu.price * quantity.to_i
+
+    cart_item = current_user.cart_items.find_or_initialize_by(menu: menu)
+    cart_item.quantity ||= 0
+    cart_item.quantity += quantity.to_i
+    cart_item.save!
+    render json: {
+      status: { code: 200, message: 'Added to cart successfully' },
+      data: {
+        cart_item: cart_item,
+        total_price: total_price,
+        menu: {
+          id: menu.id,
+          name: menu.name,
+          description: menu.description,
+          price: menu.price
+        }
+      }
+    }
   end
 
+
+
+
   def create
-    debugger
+    # debugger
     res_id =  params.require(:order_item)[:restaurant_id]
     menu_id =  params.require(:order_item)[:menu_id]
     user_id = params.require(:order_item)[:user_id]
+
     res = Restaurant.find(res_id)
     ord_item = res.menus.find(menu_id)
-    @order = Order.create(order_id: ord_item.id, user_id: user_id)
+    order = Order.create(order_id: ord_item.id, user_id: user_id)
 
-    if order.save
-      render json: { status: { code: 200, message: 'Order item created successfully' }, data: ord_item }
-    else
-      render json: { status: { code: 422, message: 'Order item creation failed', errors: ord_item.errors.full_messages } }
-     end
-
+    # if order.save
+    #   render json: { status: { code: 200, message: 'Order item created successfully' }, data: ord_item }
+    # else
+    #   render json: { status: { code: 422, message: 'Order item creation failed', errors: ord_item.errors.full_messages } }
+    # end
   end
 
   def update

@@ -13,9 +13,9 @@ Rails.application.routes.draw do
     resources :deliveries
     get '/filter_menu', to: 'menus#filter_menu'
     resources :customers
-    resources :orders do
-      collection do
-        post :add_to_cart
-      end
+    resource :cart, only: [:show] do
+      post 'add_to_cart/:menu_id', action: :add_to_cart, on: :member
+      delete 'remove_from_cart/:id', action: :remove_from_cart, on: :member
     end
+    # resources :cart_items
 end
