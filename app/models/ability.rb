@@ -9,6 +9,8 @@ class Ability
       can :read, Restaurant
       can :manage, Order
       can :manage, Menu
+      can :manage , CartItem
+      can :manage, Cart
     elsif user.admin?
       can :manage, :all
     else
