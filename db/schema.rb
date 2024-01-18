@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_11_203455) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_18_163955) do
   create_table "cart_items", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "menu_id", null: false
@@ -41,26 +41,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_11_203455) do
     t.index ["users_id"], name: "index_deliveries_on_users_id"
   end
 
-  create_table "menu_items", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "restaurant_id", null: false
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.decimal "price"
     t.integer "menu_id", null: false
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["menu_id"], name: "index_menu_items_on_menu_id"
-    t.index ["restaurant_id"], name: "index_menu_items_on_restaurant_id"
-    t.index ["user_id"], name: "index_menu_items_on_user_id"
+    t.index ["menu_id"], name: "index_items_on_menu_id"
   end
 
-  create_table "menus", force: :cascade do |t|
+  create_table "menu_item", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.decimal "price"
     t.integer "restaurant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["restaurant_id"], name: "index_menus_on_restaurant_id"
+    t.index ["restaurant_id"], name: "index_menu_item_on_restaurant_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -109,7 +106,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_11_203455) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "role"
+    t.integer "role", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "jti", null: false
@@ -122,16 +119,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_11_203455) do
   end
 
   add_foreign_key "cart_items", "carts"
-  add_foreign_key "cart_items", "menus"
+  add_foreign_key "cart_items", "menu_item", column: "menu_id"
   add_foreign_key "cart_items", "users"
   add_foreign_key "carts", "users"
   add_foreign_key "deliveries", "orders"
   add_foreign_key "deliveries", "users", column: "users_id"
-  add_foreign_key "menu_items", "menus"
-  add_foreign_key "menu_items", "restaurants"
-  add_foreign_key "menu_items", "users"
-  add_foreign_key "menus", "restaurants"
-  add_foreign_key "order_items", "menus"
+  add_foreign_key "items", "menu_item", column: "menu_id"
+  add_foreign_key "menu_item", "restaurants"
+  add_foreign_key "order_items", "menu_item", column: "menu_id"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
   add_foreign_key "restaurants", "users"

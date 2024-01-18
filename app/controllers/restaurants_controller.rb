@@ -1,6 +1,6 @@
 class RestaurantsController < ApplicationController
   before_action :authenticate_user!
-  # before_action :check_owner_approval, only: [:new, :create]
+  before_action :check_owner_approval, only: [:create]
   load_and_authorize_resource
 
   def index
@@ -37,52 +37,15 @@ class RestaurantsController < ApplicationController
   end
 
   def destroy
-    # @restaurant = Restaurant.find(params[:id])
     @restaurant.destroy
     # render json: { status: { code: 200, message: 'Restaurant deleted successfully' } }
   end
 
   private
-
+  def check_owner_approval
+    if current_user.owner_pending_approval?
+      render json: {error: 'Your request for owner is not approved yet'}, status: :unprocessable_entity
   def restaurant_params
     params.require(:restaurant).permit(:name, :description, :ratings)
   end
 end
-
-# {
-#     "status": {
-#         "code": 200,
-#         "message": "Added to cart successfully"
-#     },
-#     "data": {
-#         "cart_item": {
-#             "user_id": 27,
-#             "quantity": 8,
-#             "menu_id": 8,
-#             "id": 4,
-#             "created_at": "2024-01-10T18:08:17.511Z",
-#             "updated_at": "2024-01-10T21:38:36.199Z"
-#         },
-#         "total_price": "160.0",
-#         "menu": {
-#             "id": 8,
-#             "name": "Burgur",
-#             "description": "burgerb with butter",
-#             "price": "80.0"
-#         }
-#     }
-# }
-# # cart = {
-# #   "userID": 1,
-# #   "items": [
-# #     {
-# #       itemID: "1",
-# #       quantity: "1",
-# #     }
-# #     {
-# #       itemID: "2",
-# #       quantity: "2",
-# #     },
-# #   ],
-# #   total_price: xxx
-# # }

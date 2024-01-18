@@ -1,13 +1,21 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-        sessions: 'users/sessions',
-        registrations: 'users/registrations'
-      }
+  get 'admin/index'
+    devise_for :users, controllers: {
+      sessions: 'users/sessions',
+      registrations: 'users/registrations'
+    }
+    devise_scope :user do
+      post 'apply_for_owner', to: 'users/registrations#apply_for_owner'
+    end
+    # namespace :admin do
+    #   resources :owners, only: [:index]
+    # end
+  post 'admin/approve_owner/:user_id', to: 'admin#approve_owner'#, as: :approve_owner
 
     resources :restaurants
     resources :owners
     resources :menus
-    # resources :orders
+    resources :orders
     # resources :order_items
     resources :reviews
     resources :deliveries

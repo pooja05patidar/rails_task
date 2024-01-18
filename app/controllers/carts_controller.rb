@@ -11,11 +11,9 @@ class CartsController < ApplicationController
     }
   end
 
-
   def add_to_cart
     @cart = current_user.cart || current_user.create_cart
     menu = Menu.find(params[:menu_id])
-
     @cart_item = @cart.cart_items.find_or_initialize_by(menu: menu)
 
     if @cart_item.new_record?
@@ -34,7 +32,6 @@ class CartsController < ApplicationController
       render json: { errors: @cart_item.errors.full_messages }, status: :unprocessable_entity
     end
   end
-
 
   def remove_from_cart
     @cart_item = CartItem.find(params[:id])

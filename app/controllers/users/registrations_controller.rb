@@ -24,6 +24,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
       }
     end
   end
+  def apply_for_owner
+    # debugger
+    current_user.update_columns(role: :owner_pending_approval)
+    render json: { message: 'Owner request submitted for approval' }
+  end
+
+
+  private
+
+  def current_user_params
+    params.require(:user).permit(:contact) # Adjust the permitted attributes as needed
+  end
+
+  def admin_approve_owner
+    if current_user.admin?
+      user = User.find(params[:user_id])
+      user.update(_role: :owner, approved_by_admin: true)
+      render json: { message: 'User approved as owner' }
+    else
+      render json: { message: 'Unauthorized to perform this action' }, status: :unauthorized
+    end
+  end
 
   protected
 

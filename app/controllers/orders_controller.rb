@@ -42,20 +42,21 @@ class OrdersController < ApplicationController
 
 
   def create
-    # debugger
-    res_id =  params.require(:order_item)[:restaurant_id]
-    menu_id =  params.require(:order_item)[:menu_id]
-    user_id = params.require(:order_item)[:user_id]
+    debugger
+    p = params.require(:order_item)
+    res_id =  p[:restaurant_id]
+    menu_id =  p[:menu_id]
+    user_id = p[:user_id]
 
     res = Restaurant.find(res_id)
     ord_item = res.menus.find(menu_id)
     order = Order.create(order_id: ord_item.id, user_id: user_id)
 
-    # if order.save
-    #   render json: { status: { code: 200, message: 'Order item created successfully' }, data: ord_item }
-    # else
-    #   render json: { status: { code: 422, message: 'Order item creation failed', errors: ord_item.errors.full_messages } }
-    # end
+    if order.save
+      render json: { status: { code: 200, message: 'Order item created successfully' }, data: ord_item }
+    else
+      render json: { status: { code: 422, message: 'Order item creation failed', errors: ord_item.errors.full_messages } }
+    end
   end
 
   def update
@@ -84,7 +85,7 @@ class OrdersController < ApplicationController
   private
 
   def order_item_params
-    params.require(:order_item).permit(:order_id, :menu_id, :quantity, :total_price,)
+    params.require(:order_item).permit(:order_id, :menu_id, :quantity, :total_price)
   end
   def set_id()
     @order_item = Order.find(params[:id])

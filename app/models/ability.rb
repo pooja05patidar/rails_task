@@ -3,14 +3,14 @@ class Ability
   def initialize(user)
     user ||= User.new
     if user.owner?
-      can :manage, Restaurant
+      can :manage, Restaurant, user_id: user.id
       can :manage, :all
     elsif user.customer?
       can :read, Restaurant
       can :manage, Order
-      can :manage, Menu
+      can :read, Menu
       can :manage , CartItem
-      can :manage, Cart
+      can :manage, Cart, user_id: user.id
     elsif user.admin?
       can :manage, :all
     else
