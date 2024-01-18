@@ -3,8 +3,14 @@ class CartsController < ApplicationController
 
   def show
     @cart = current_user.cart
-    render json: { status: { code: 200, message: 'Success' }, data: @cart }
+    @cart_items = @cart.cart_items.includes(:menu)
+
+    render json: {
+      status: { code: 200, message: 'Success' },
+      data: @cart.as_json(include: { cart_items: { include: { menu: { only: [:id, :name, :price] } } } })
+    }
   end
+
 
   def add_to_cart
     @cart = current_user.cart || current_user.create_cart
@@ -18,13 +24,12 @@ class CartsController < ApplicationController
     else
       @cart_item.quantity += 1
     end
-
+    total_price = @cart_item.subtotal
     if @cart_item.save
       @cart_items = @cart.cart_items.includes(:menu)
       render json: {
         message: 'Item added to the cart successfully',
-        cart_items: @cart_items.as_json(include: { menu: { only: [:id, :name, :price] } })
-      }, status: :created
+        cart_items: @cart_items.as_json(include: { menu: { only: [:id, :name, :price] } }), total_price: total_price}, status: :created
     else
       render json: { errors: @cart_item.errors.full_messages }, status: :unprocessable_entity
     end
