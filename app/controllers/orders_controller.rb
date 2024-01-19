@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
         total_price: total_price,
         menu: {
           id: menu.id,
-          name: menu.name,
+          name: menu_item.name,
           description: menu.description,
           price: menu.price
         }
@@ -42,14 +42,14 @@ class OrdersController < ApplicationController
 
 
   def create
-    debugger
+    # debugger
     p = params.require(:order_item)
     res_id =  p[:restaurant_id]
-    menu_id =  p[:menu_id]
+    menu_id =  p[:menu_item_id]
     user_id = p[:user_id]
 
     res = Restaurant.find(res_id)
-    ord_item = res.menus.find(menu_id)
+    ord_item = res.menu_items.find(menu_id)
     order = Order.create(order_id: ord_item.id, user_id: user_id)
 
     if order.save
@@ -60,11 +60,11 @@ class OrdersController < ApplicationController
   end
 
   def update
-    debugger
+    # debugger
     # @order_item = Order.find(params[:id])
     res_id =  params.require(:order_item)[:restaurant_id]
     res = Restaurant.find(res_id)
-    menu_id =  params.require(:order_item)[:menu_id]
+    menu_id =  params.require(:order_item)[:menu_item_id]
     # @order_item.update(order_item_params)
     if @order_item.update(order_id: ord_item.id, user_id: user_id)
       render json: { status: { code: 200, message: 'Order item updated successfully' }, data: @order_item }

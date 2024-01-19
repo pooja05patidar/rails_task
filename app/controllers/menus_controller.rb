@@ -48,7 +48,7 @@ class MenusController < ApplicationController
       render json: { status: { code: 422, message: 'Menu update failed', errors: @menu.errors.full_messages } }
     end
   end
-  
+
   def destroy
     @menu.destroy
     # render json: { status: { code: 200, message: 'Menu deleted successfully' } }

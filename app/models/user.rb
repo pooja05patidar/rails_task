@@ -9,8 +9,9 @@ class User < ApplicationRecord
   numericality: { only_integer: true, message: "Contact number should be a valid number" },
   length: { is: 10, message: "Contact number should be 10 digits long" },
   uniqueness: { scope: :id, message: "is already taken" }
-validates :password, presence: true, length: { minimum: 6 }, format: { with: /\A(?=.*[[:alnum:]])(?=.*[[:punct:]])[\w[:punct:]]{6,}\z/, message: "should include at least one special character" }
-
+  validates :password, presence: true, length: { minimum: 6 }, format: { with: /\A(?=.*[[:alnum:]])(?=.*[[:punct:]])[\w[:punct:]]{6,}\z/, message: "should include at least one special character" }
+  validates :username,presence: true, uniqueness: true
+  
   has_many :restaurants, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_one :order , dependent: :destroy

@@ -7,5 +7,5 @@ class Restaurant < ApplicationRecord
     %w[name id]
   end
   attribute :ratings, :integer, default:0
-  # validates :
+  validates :name, uniqueness: true
 end

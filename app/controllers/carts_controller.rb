@@ -3,7 +3,7 @@ class CartsController < ApplicationController
 
   def show
     @cart = current_user.cart
-    @cart_items = @cart.cart_items.includes(:menu)
+    @cart_items = @cart.cart_items.includes(:menu_item)
 
     render json: {
       status: { code: 200, message: 'Success' },
@@ -13,8 +13,9 @@ class CartsController < ApplicationController
 
   def add_to_cart
     @cart = current_user.cart || current_user.create_cart
-    menu = Menu.find(params[:menu_id])
-    @cart_item = @cart.cart_items.find_or_initialize_by(menu: menu)
+    id = params[:cart_items][:menu_item_id]
+    menu = MenuItem.find(id)
+    @cart_item = @cart.cart_items.find_or_initialize_by(menu_id: menu.id)
 
     if @cart_item.new_record?
       @cart_item.quantity = 1
@@ -22,9 +23,10 @@ class CartsController < ApplicationController
     else
       @cart_item.quantity += 1
     end
-    total_price = @cart_item.subtotal
+    debugger
     if @cart_item.save
       @cart_items = @cart.cart_items.includes(:menu)
+      total_price = @cart_item.subtotal
       render json: {
         message: 'Item added to the cart successfully',
         cart_items: @cart_items.as_json(include: { menu: { only: [:id, :name, :price] } }), total_price: total_price}, status: :created

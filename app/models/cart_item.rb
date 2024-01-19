@@ -1,12 +1,8 @@
 class CartItem < ApplicationRecord
   belongs_to :cart
-  belongs_to :menu
+  belongs_to :menu_item
 
-  def subtotal
-    menu.price * quantity
+  def self.subtotal
+    menu_item.price * quantity
   end
 end
-
-  def user
-    cart.user if cart
-  end

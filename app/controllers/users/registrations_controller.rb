@@ -6,6 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [:update]
 
   def create
+    # debugger
     build_resource(sign_up_params)
 
     if resource.save
@@ -26,7 +27,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
   def apply_for_owner
     # debugger
-    current_user.update_columns(role: :owner_pending_approval)
+    # aadhaar_card_number = params[:aadhaar_card_number]
+    # id_proof = params[:id_proof]
+    # age = params[:age]
+    # if aadhaar_card_number.blank? || id_proof.blank?
+    #   render json: {error: 'Please provide aadhaar card number and id proof'}, status: :unprocessable_entity
+    #   return
+    # end
+    current_user.update_columns(role: :owner_pending_approval, aadhaar_card_number: aadhaar_card_number, id_proof: id_proof)
     render json: { message: 'Owner request submitted for approval' }
   end
 
@@ -50,10 +58,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :address, :contact, :role])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :address, :contact, :role, :username])
   end
 
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :email, :password, :address, :contact, :role])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :email, :password, :address, :contact, :role, :username])
   end
 end

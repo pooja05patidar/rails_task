@@ -6,9 +6,10 @@ class Ability
       can :manage, Restaurant, user_id: user.id
       can :manage, :all
     elsif user.customer?
+      can :create, Review
       can :read, Restaurant
       can :manage, Order
-      can :read, Menu
+      can :read, MenuItem
       can :manage , CartItem
       can :manage, Cart, user_id: user.id
     elsif user.admin?
