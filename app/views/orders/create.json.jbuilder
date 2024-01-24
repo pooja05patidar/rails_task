@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.status do
   if @order.persisted?
     json.code 200

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# admin controller
 class AdminController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :authenticate_user!
 
   def index
     @owner_requests = User.where(role: :owner_pending_approval)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.data do
   json.id @review.id
   json.restaurant_id @review.restaurant_id

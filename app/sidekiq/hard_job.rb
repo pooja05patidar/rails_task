@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class HardJob
   include Sidekiq::Job
 
-  def perform(name,age)
+  def perform(name, age)
     # Do something
   end
 end

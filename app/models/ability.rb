@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# ability.rb
 class Ability
   include CanCan::Ability
   def initialize(user)
@@ -10,7 +13,7 @@ class Ability
       can :read, Restaurant
       can :manage, Order
       can :read, MenuItem
-      can :manage , CartItem
+      can :manage, CartItem
       can :manage, Cart, user_id: user.id
     elsif user.admin?
       can :manage, :all

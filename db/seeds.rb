@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # # This file should ensure the existence of records required to run the application in every environment (production,
 # # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
@@ -12,8 +14,8 @@ Restaurant.destroy_all
 Order.destroy_all
 
 u = User.create!(
-    "email": 'user1@gmail.com',
-    "password": '12345678'
+  "email": 'user1@gmail.com',
+  "password": '12345678'
 )
 user = User.create!(
   "email": 'user2@gmail.com',
@@ -31,24 +33,22 @@ res = user.restaurants.create!(
   "ratings": '4.3'
 )
 r.menus.create!(
-  "name": "Pizza",
+  "name": 'Pizza',
   'description': "today's special",
   "price": '80'
 )
 r.menus.create!(
-  "name": "Sandwich",
-  'description': "With all the masala..",
+  "name": 'Sandwich',
+  'description': 'With all the masala..',
   "price": '70'
-
 )
 res.menus.create!(
-  "name": "Burgur",
-  'description': "burgerb with butter",
+  "name": 'Burgur',
+  'description': 'burgerb with butter',
   "price": '80'
 )
 res.menus.create!(
-  "name": "Fries",
-  'description': "Crunchies",
+  "name": 'Fries',
+  'description': 'Crunchies',
   "price": '60'
-
 )

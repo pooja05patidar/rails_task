@@ -1,7 +1,11 @@
-class Rock::HardJob
-  include Sidekiq::Job
+# frozen_string_literal: true
 
-  def perform(*args)
-    # Do something
+module Rock
+  class HardJob
+    include Sidekiq::Job
+
+    def perform(*args)
+      # Do something
+    end
   end
 end

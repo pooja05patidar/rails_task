@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if @restaurant.errors.empty?
   json.code 200
   json.message 'Restaurant updated successfully'

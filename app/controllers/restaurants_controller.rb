@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# restaurant controller
 class RestaurantsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_owner_approval, only: [:create]
@@ -9,8 +12,7 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.all
   end
 
-  def show
-  end
+  def show; end
 
   def create
     @restaurant = current_user.restaurants.create(restaurant_params)
@@ -25,11 +27,13 @@ class RestaurantsController < ApplicationController
   end
 
   private
+
   def check_owner_approval
-    if current_user.owner_pending_approval?
-      render json: {error: 'Your request for owner is not approved yet'}, status: :unprocessable_entity
-    end
+    return unless current_user.owner_pending_approval?
+
+    render json: { error: 'Your request for owner is not approved yet' }, status: :unprocessable_entity
   end
+
   def restaurant_params
     params.require(:restaurant).permit(:name, :description, :ratings)
   end

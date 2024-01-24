@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# menu controller
 class MenusController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_menu, only: [:show, :update, :destroy]
+  before_action :set_menu, only: %i[show update destroy]
   load_and_authorize_resource
 
   def index
