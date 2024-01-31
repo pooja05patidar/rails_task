@@ -3,16 +3,25 @@
 # restaurant controller
 class RestaurantsController < ApplicationController
   before_action :authenticate_user!
+  before_action :pagination
   before_action :check_owner_approval, only: [:create]
+  rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
   load_and_authorize_resource
+  def pagination
+    @restaurants = Restaurant.page params[:page]
+  end
 
   def index
-    # @q = Restaurant.ransack(params[:q])
-    # @restaurants = @q.result.order(:id).per(params[:page]).per(3)
     @restaurant = Restaurant.all
   end
 
-  def show; end
+  def show
+    if @restaurant.is_active?
+      render json: @restaurant
+    else
+      render json: {message: 'deactivated'}
+    end
+  end
 
   def create
     @restaurant = current_user.restaurants.create(restaurant_params)
@@ -22,8 +31,13 @@ class RestaurantsController < ApplicationController
     @restaurant.update(restaurant_params)
   end
 
-  def destroy
-    @restaurant.destroy
+  def reactivate
+    @restaurant = @restaurant.update_attribute(:is_active, true)
+    render json: {status:{message: 'Reactivated successfully'}, restaurant: @restaurant}
+  end
+
+  def deactivate
+    @restaurant = @restaurant.update_attribute(:is_active, false)
   end
 
   private
@@ -32,6 +46,10 @@ class RestaurantsController < ApplicationController
     return unless current_user.owner_pending_approval?
 
     render json: { error: 'Your request for owner is not approved yet' }, status: :unprocessable_entity
+  end
+
+  def handle_record_not_found
+    render json: {error: 'Restaurant not found '}, status: :not_found
   end
 
   def restaurant_params

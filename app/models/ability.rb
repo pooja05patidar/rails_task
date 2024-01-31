@@ -6,6 +6,8 @@ class Ability
   def initialize(user)
     user ||= User.new
     if user.owner?
+      return unless user.present?
+      can :deactivate, Restaurant, user: user
       can :manage, Restaurant, user_id: user.id
       can :manage, :all
     elsif user.customer?

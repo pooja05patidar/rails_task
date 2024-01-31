@@ -41,6 +41,7 @@ module Users
       current_user.update_columns(role: :owner_pending_approval, aadhaar_card_number: aadhaar_card_number,
                                   id_proof: id_proof, age: age)
       render json: { message: 'Owner request submitted for approval' }
+      UserMailer.owner_request(current_user).deliver_now
     end
 
     private

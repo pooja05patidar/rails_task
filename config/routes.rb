@@ -16,9 +16,13 @@ Rails.application.routes.draw do
   # end
   post 'admin/approve_owner/:user_id', to: 'admin#approve_owner' # , as: :approve_owner
 
-  resources :restaurants
+  resources :restaurants do
+    member do
+      put 'reactivate'
+    end
+  end
   resources :owners
-  resources :menus
+  resources :menu_items
   resources :orders
   # resources :order_items
   resources :reviews
