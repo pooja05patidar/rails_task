@@ -6,13 +6,12 @@ class MenuItemsController < ApplicationController
   before_action :set_menu, only: %i[show update destroy]
   load_and_authorize_resource
 
-
   def index
-    if params[:category].present?
-      @menu_items = MenuItem.where(category: params[:category])
-    else
-      @menu_items = MenuItem.all
-    end
+    @menu_items = if params[:category].present?
+                    MenuItem.where(category: params[:category])
+                  else
+                    MenuItem.all
+                  end
     render json: @menu_items
   end
 
@@ -22,8 +21,7 @@ class MenuItemsController < ApplicationController
     render json: { status: { code: 200, message: 'Success' }, data: @filtered_menus }
   end
 
-  def show
-  end
+  def show; end
 
   def create
     res = Restaurant.find(menu_item_params[:restaurant_id])
@@ -32,12 +30,13 @@ class MenuItemsController < ApplicationController
     if item.save
       render json: { status: { code: 200, message: 'Menu created successfully' }, menu: item }, status: 200
     else
-      render json: { status: { code: 422, message: 'Menu creation failed', errors: item.errors.full_messages } }, status: 422
+      render json: { status: { code: 422, message: 'Menu creation failed', errors: item.errors.full_messages } },
+             status: 422
     end
   end
 
   def update
-    id = params.require(:menu)[:restaurant_id]
+    params.require(:menu)[:restaurant_id]
     res = Restaurant.find(@id)
     item = res.menus.update
     if item.save
@@ -58,6 +57,6 @@ class MenuItemsController < ApplicationController
   end
 
   def menu_item_params
-    menu_item_params = params.require(:menu_items).permit(:name, :description, :price, :restaurant_id, :category)
+    params.require(:menu_items).permit(:name, :description, :price, :restaurant_id, :category)
   end
 end

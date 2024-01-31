@@ -5,11 +5,13 @@ class UserMailer < ApplicationMailer
   def welcome_email(user)
     # debugger
     @user = user
-    # @url  = 'http://example.com/login'
+    @url  = 'http://127.0.0.1:3000/users/sign_in'
     mail(to: @user.email, subject: 'Welcome to Restaurants Website', body: '')
   end
-  def owner_request(user)
+
+  def owner_request(_user)
     @user = User.find_by(role: 'admin')
-    mail(to: @user.email, subject: 'User have applied for owner')
+    @url =
+      mail(to: @user.email, subject: 'User have applied for owner', body: '')
   end
 end

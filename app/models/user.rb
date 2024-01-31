@@ -15,7 +15,7 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 },
                        format: { with: /\A(?=.*[[:alnum:]])(?=.*[[:punct:]])[\w[:punct:]]{6,}\z/, message: 'should include at least one special character' }
   validates :username, presence: true, uniqueness: true
-  validates :aadhaar_card_number, length: {minimum:12, maximum: 12}, uniqueness: true
+  # validates :aadhaar_card_number, length: {minimum:12, maximum: 12}, uniqueness: true
   has_many :restaurants, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_one :order, dependent: :destroy

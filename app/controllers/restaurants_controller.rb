@@ -19,7 +19,7 @@ class RestaurantsController < ApplicationController
     if @restaurant.is_active?
       render json: @restaurant
     else
-      render json: {message: 'deactivated'}
+      render json: { message: 'deactivated' }
     end
   end
 
@@ -33,7 +33,7 @@ class RestaurantsController < ApplicationController
 
   def reactivate
     @restaurant = @restaurant.update_attribute(:is_active, true)
-    render json: {status:{message: 'Reactivated successfully'}, restaurant: @restaurant}
+    render json: { status: { message: 'Reactivated successfully' }, restaurant: @restaurant }
   end
 
   def deactivate
@@ -49,7 +49,7 @@ class RestaurantsController < ApplicationController
   end
 
   def handle_record_not_found
-    render json: {error: 'Restaurant not found '}, status: :not_found
+    render json: { error: 'Restaurant not found ' }, status: :not_found
   end
 
   def restaurant_params

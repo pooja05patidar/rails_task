@@ -9,8 +9,7 @@ class OrdersController < ApplicationController
     @order_items = Order.all
   end
 
-  def show;
-  end
+  def show; end
 
   def create
     restaurant = Restaurant.find(order_item_params[:restaurant_id])
@@ -51,7 +50,7 @@ class OrdersController < ApplicationController
   private
 
   def order_item_params
-    params.require(:order_item).permit(:order_id,:restaurant_id, :menu_item_id, :quantity, :total_price,:user_id)
+    params.require(:order_item).permit(:order_id, :restaurant_id, :menu_item_id, :quantity, :total_price, :user_id)
   end
 
   def set_id
