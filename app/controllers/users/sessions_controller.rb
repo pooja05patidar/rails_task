@@ -4,7 +4,25 @@
 
 module Users
   class SessionsController < Devise::SessionsController
+    before_action :pagination
     respond_to :json
+
+    # def pagination
+    #   @users = User.page params[:page]
+    # end
+    def pagination
+      @users = User.page(params[:page])
+    end
+
+    def show
+      @user = User.find(params[:id])
+      render json: @user
+    end
+
+    def index
+      @users = User.all
+      render json:@users
+    end
 
     private
 

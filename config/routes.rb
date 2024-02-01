@@ -10,12 +10,13 @@ Rails.application.routes.draw do
   }
   devise_scope :user do
     post 'apply_for_owner', to: 'users/registrations#apply_for_owner'
+    get 'users/:id', to: 'users/sessions#show'
+    get 'users', to: 'users/sessions#index'
   end
-  # namespace :admin do
-  #   resources :owners, only: [:index]
-  # end
+  resources :users do
+    get 'pagination', on: :collection
+  end
   post 'admin/approve_owner/:user_id', to: 'admin#approve_owner' # , as: :approve_owner
-
   resources :restaurants do
     member do
       put 'reactivate'

@@ -19,7 +19,7 @@ class RestaurantsController < ApplicationController
     if @restaurant.is_active?
       render json: @restaurant
     else
-      render json: { message: 'deactivated' }
+      render json: "#{@restaurant.name} is deactivated"
     end
   end
 
