@@ -1,0 +1,64 @@
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+
+  context 'Validates when creating a user' do
+    it 'is valid with all valid attributes' do
+      user = FactoryBot.build(:user)
+      expect(user).to be_valid
+    end
+
+    it 'is invalid without name' do
+      user = FactoryBot.build(:user, name: nil)
+      expect(user).to_not be_valid
+    end
+
+    # it 'is invalid without a role' do
+    #   user = FactoryBot.build(:user, role: nil)
+    #   expect(user).to_not be_valid
+    # end
+
+    # it 'is invalid without an email' do
+    #   user = FactoryBot.build(:user, email: nil)
+    #   expect(user).to_not be_valid
+    # end
+
+    # it 'has a valid email when created with :with_unique_email trait' do
+    #   user_with_unique_email = FactoryBot.create(:user, :with_unique_email)
+    #   expect(user_with_unique_email).to be_valid
+    #   duplicate_user = FactoryBot.build(:user, :with_unique_email)
+    #   expect(duplicate_user.email).to_not eq(user_with_unique_email.email)
+    # end
+
+    # it 'should raise RecordInvalid for duplicate emails' do
+    #   user = FactoryBot.create(:user, email: 'duplicate@gmail.com') #should be created
+    #   user2 = FactoryBot.build(:user, email: 'duplicate@gmail.com') # instantiate it and then save
+    #   user2.save
+    #   expect(user2.errors[:email]).to include("has already been taken") # standard way
+    #   # expect(user2).to_not be_valid # works both
+    # end
+  end
+
+  # context 'Enum' do
+  #   it 'has a valid enum role' do
+  #     user = FactoryBot.build(:user)
+  #     expect(user.role).to eq('job_seeker')
+  #   end
+
+  #   it 'has a valid enum role' do
+  #     user = FactoryBot.build(:user, role: 1)
+  #     expect(user.role).to eq('job_recruiter')
+  #   end
+  # end
+
+  # context 'Users Associations' do
+  #   it 'user has one association with user_profile' do
+  #     expect(User.reflect_on_association(:user_profile).options[:dependent]).to eq(:destroy)
+  #   end
+
+  #   it 'has one association with company' do
+  #     expect(User.reflect_on_association(:company).macro).to eq(:has_one)
+  #     #macro will give's the type of association
+  #   end
+  # end
+end

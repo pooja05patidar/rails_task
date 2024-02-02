@@ -40,11 +40,12 @@ gem 'rack-cors'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw]
+  gem 'rspec-rails'
+  gem 'faker'
+  # gem 'factory_bot_rails'
 end
 
-group :test do
-  gem 'rspec-rails'
-end
+gem 'factory_bot_rails', group: [:development, :test]
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
