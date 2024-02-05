@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_30_180246) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_02_233111) do
   create_table "cart_items", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "menu_id", null: false
@@ -77,6 +77,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_30_180246) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order_id"
+    t.integer "restaurant_id"
+    t.index ["restaurant_id"], name: "index_orders_on_restaurant_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -134,6 +136,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_30_180246) do
   add_foreign_key "menu_item", "restaurants"
   add_foreign_key "order_items", "menu_item", column: "menu_id"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "restaurants"
   add_foreign_key "orders", "users"
   add_foreign_key "restaurants", "users"
   add_foreign_key "reviews", "restaurants"

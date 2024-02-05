@@ -3,6 +3,7 @@ FactoryBot.define do
     name { Faker::Name.name }
     email { Faker::Internet.email }
     password { Faker::Internet.password }
+    address { Faker::Address.address}
     jti { "xxxxxxxpayloadxxxxxxxJTIxxxxxxx" }
     trait :with_unique_email do
       sequence(:email) { |n| "unique_email_#{n}@example.com" }

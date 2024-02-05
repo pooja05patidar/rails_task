@@ -3,7 +3,6 @@
 # user.rb
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
-  include Kaminari::ConfigurationMethods
   paginates_per 5
   validates :email, presence: true, uniqueness: true
   validates :role, presence: true

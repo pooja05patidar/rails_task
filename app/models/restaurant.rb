@@ -2,9 +2,9 @@
 
 # restaurant.rb
 class Restaurant < ApplicationRecord
+  paginates_per 5
   belongs_to :user
   has_many :menu_items, dependent: :destroy
-  paginates_per 5
   has_many :orders
   has_many :reviews, dependent: :destroy
   def self.ransackable_attributes(_auth_object = nil)
