@@ -7,9 +7,6 @@ module Users
     before_action :pagination
     respond_to :json
 
-    # def pagination
-    #   @users = User.page params[:page]
-    # end
     def pagination
       @users = User.page(params[:page])
     end

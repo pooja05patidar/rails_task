@@ -2,12 +2,14 @@ FactoryBot.define do
   factory :user do
     name { Faker::Name.name }
     email { Faker::Internet.email }
-    password { Faker::Internet.password }
-    address { Faker::Address.address}
-    jti { "xxxxxxxpayloadxxxxxxxJTIxxxxxxx" }
+    password { 'Password123!' }
+    address { Faker::Address.street_address }
+    jti { 'xxxxxxxpayloadxxxxxxxJTIxxxxxxx' }
+    contact { '7812569034' } 
+    username { Faker::Internet.username }
+
     trait :with_unique_email do
       sequence(:email) { |n| "unique_email_#{n}@example.com" }
     end
-    # Traits in FactoryBot are used to group together common attributes or behaviors for factory definitions
   end
 end
