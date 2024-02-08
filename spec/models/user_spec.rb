@@ -13,10 +13,10 @@ RSpec.describe User, type: :model do
       expect(user).to_not be_valid
     end
 
-    # it 'is invalid without a role' do
-    #   user = FactoryBot.build(:user, role: nil)
-    #   expect(user).to_not be_valid
-    # end
+    it 'is invalid without a role' do
+      user = FactoryBot.build(:user, role: nil)
+      expect(user).to_not be_valid
+    end
 
     it 'is invalid without an email' do
       user = FactoryBot.build(:user, email: nil)
@@ -39,39 +39,15 @@ RSpec.describe User, type: :model do
     end
   end
 
-  # context 'Enum' do
-  #   it 'has a valid enum role' do
-  #     user = FactoryBot.build(:user)
-  #     expect(user.role).to eq('job_seeker')
-  #   end
-
-  #   it 'has a valid enum role' do
-  #     user = FactoryBot.build(:user, role: 1)
-  #     expect(user.role).to eq('job_recruiter')
-  #   end
-  # end
-
-  # context 'Users Associations' do
-  #   it 'user has one association with user_profile' do
-  #     expect(User.reflect_on_association(:user_profile).options[:dependent]).to eq(:destroy)
-  #   end
-
-  #   it 'has one association with company' do
-  #     expect(User.reflect_on_association(:company).macro).to eq(:has_one)
-  #     #macro will give's the type of association
-  #   end
-  # end
-
+  context 'Role Enum' do
+    it { should define_enum_for(:role).with_values(customer: 0, owner_pending_approval: 1, owner: 2, admin: 3) }
+  end
 
   context 'Role Default' do
     it 'sets the default role to :customer' do
       user = User.new
       expect(user.role).to eq('customer')
     end
-  end
-
-  context 'Role Enum' do
-    it { should define_enum_for(:role).with_values(customer: 0, owner_pending_approval: 1, owner: 2, admin: 3) }
   end
 
   context 'Custom Methods' do
@@ -81,7 +57,7 @@ RSpec.describe User, type: :model do
       expect(user.role).to eq('customer')
     end
   end
-  
+
   context 'Associations' do
     it { should have_many(:restaurants).dependent(:destroy) }
     it { should have_many(:reviews).dependent(:destroy) }

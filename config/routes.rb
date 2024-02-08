@@ -13,15 +13,14 @@ Rails.application.routes.draw do
     get 'users/:id', to: 'users/sessions#show'
     get 'users', to: 'users/sessions#index'
   end
-  resources :users do
-    get 'pagination', on: :collection
-  end
+
   post 'admin/approve_owner/:user_id', to: 'admin#approve_owner' # , as: :approve_owner
   resources :restaurants do
     member do
       put 'reactivate'
     end
   end
+  resources :restaurants
   resources :owners
   resources :menu_items
   resources :orders

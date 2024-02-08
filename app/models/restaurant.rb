@@ -7,6 +7,7 @@ class Restaurant < ApplicationRecord
   has_many :menu_items, dependent: :destroy
   has_many :orders
   has_many :reviews, dependent: :destroy
+  validates :name, presence: true, uniqueness: true
   def self.ransackable_attributes(_auth_object = nil)
     %w[name id]
   end
@@ -21,5 +22,4 @@ class Restaurant < ApplicationRecord
 
   attribute :ratings, :integer, default: 0
   attribute :is_active, :boolean, default: true
-  validates :name, uniqueness: true
 end

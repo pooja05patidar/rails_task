@@ -26,8 +26,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
-  # enum role: { guest: 0, customer: 1, owner: 2, admin: 3 }
-
   enum role: { customer: 0, owner_pending_approval: 1, owner: 2, admin: 3 }
   after_initialize :set_role, if: :new_record?
 
