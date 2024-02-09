@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :contact, :address, :username, :role
   has_many :restaurants, dependent: :destroy

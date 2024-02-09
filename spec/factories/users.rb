@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user do
     name { Faker::Name.name }
@@ -5,7 +7,7 @@ FactoryBot.define do
     password { 'Password123!' }
     address { Faker::Address.street_address }
     jti { 'xxxxxxxpayloadxxxxxxxJTIxxxxxxx' }
-    contact { '7812569034' } 
+    contact { '7812569034' }
     username { Faker::Internet.username }
 
     trait :with_unique_email do

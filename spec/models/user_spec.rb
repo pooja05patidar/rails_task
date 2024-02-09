@@ -48,7 +48,7 @@ RSpec.describe User, type: :model do
       user = User.new
       expect(user.role).to eq('customer')
     end
-  end
+  endk
 
   context 'Custom Methods' do
     it 'has a set_role method' do
