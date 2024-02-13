@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     get 'users', to: 'users/sessions#index'
   end
 
-  post 'admin/approve_owner/:user_id', to: 'admin#approve_owner' # , as: :approve_owner
+  post 'admin/approve_owner/:user_id', to: 'admin#approve_owner'
   resources :restaurants do
     member do
       put 'reactivate'

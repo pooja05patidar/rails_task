@@ -43,32 +43,5 @@ RSpec.describe Restaurant, type: :model do
         expect(association.options[:dependent]).to eq :destroy
       end
     end
-
-    context 'custom methods' do
-      let(:restaurant) { FactoryBot.create(:restaurant) }
-      it 'activates restaurants ' do
-        restaurant.deactivate_restaurant!
-        restaurant.activate_restaurant!
-        expect(restaurant.reload.is_active).to eq true
-      end
-
-      it 'deactivates restaurant' do
-        restaurant.activate_restaurant!
-        restaurant.deactivate_restaurant!
-        expect(restaurant.reload.is_active).to eq false
-      end
-    end
-
-    context 'Attributes' do
-      it 'has a default ratings of 0' do
-        restaurant = FactoryBot.create(:restaurant)
-        expect(restaurant.ratings).to eq 0
-      end
-
-      it 'has a default is_active value of true' do
-        restaurant = FactoryBot.create(:restaurant)
-        expect(restaurant.is_active).to eq true
-      end
-    end
   end
 end

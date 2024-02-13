@@ -23,12 +23,16 @@ class OrdersController < ApplicationController
       render json: { status: { code: 422, message: 'Order item creation failed',
                                errors: order.errors.full_messages } }
     end
+  rescue StandardError => e
+    mssg = e.message
+
+    render json: { status: { code: 404, message: mssg }, data: nil }
   end
 
   def update
     # debugger
-    res_id = params.require(:order_item)[:restaurant_id]
-    Restaurant.find(res_id)
+    # res_id = params.require(:order_item)[:restaurant_id]
+    # Restaurant.find(res_id)
     params.require(:order_item)[:menu_item_id]
     if @order_item.update(order_id: ord_item.id, user_id: user_id)
       render json: { status: { code: 200, message: 'Order item updated successfully' }, data: @order_item }

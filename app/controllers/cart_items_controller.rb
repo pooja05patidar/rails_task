@@ -2,9 +2,14 @@
 
 # Cart Items Controller
 class CartItemsController < ApplicationController
+  before_action :pagination
   def index
     @cart_items = CartItem.all
     render json: { status: { code: 200, message: 'Success' }, data: @cart_items }
+  end
+
+  def pagination
+    @cart_items = CartItem.page params[:page]
   end
 
   def show

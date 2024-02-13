@@ -2,7 +2,7 @@
 
 # restaurant controller
 class RestaurantsController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   before_action :pagination
   before_action :check_owner_approval, only: [:create]
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
@@ -38,8 +38,9 @@ class RestaurantsController < ApplicationController
     render json: { status: { message: 'Reactivated successfully' }, restaurant: @restaurant }
   end
 
-  def deactivate
+  def destroy
     @restaurant = @restaurant.update_attribute(:is_active, false)
+    render json: { message: 'Deactivated' }
   end
 
   private
@@ -55,6 +56,6 @@ class RestaurantsController < ApplicationController
   end
 
   def restaurant_params
-    params.require(:restaurant).permit(:name, :description, :ratings)
+    params.require(:restaurant).permit(:name, :description, :ratings, :is_active)
   end
 end
