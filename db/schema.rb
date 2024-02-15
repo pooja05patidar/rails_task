@@ -32,26 +32,6 @@ ActiveRecord::Schema[7.1].define(version: 20_240_202_233_111) do
     t.index ['user_id'], name: 'index_carts_on_user_id'
   end
 
-  create_table 'deliveries', force: :cascade do |t|
-    t.integer 'order_id', null: false
-    t.integer 'users_id', null: false
-    t.string 'status'
-    t.datetime 'delivery_time'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['order_id'], name: 'index_deliveries_on_order_id'
-    t.index ['users_id'], name: 'index_deliveries_on_users_id'
-  end
-
-  create_table 'items', force: :cascade do |t|
-    t.string 'name'
-    t.decimal 'price'
-    t.integer 'menu_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['menu_id'], name: 'index_items_on_menu_id'
-  end
-
   create_table 'menu_item', force: :cascade do |t|
     t.string 'name'
     t.text 'description'

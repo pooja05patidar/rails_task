@@ -10,9 +10,7 @@ class AdminController < ApplicationController
   end
 
   def approve_owner
-    # debugger
     user = User.find(params[:user_id])
-
     if user.update_columns(role: :owner)
       render json: { message: 'Owner request approved' }
     else

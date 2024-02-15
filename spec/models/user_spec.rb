@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
   context 'Validates when creating a user' do
     it 'is valid with all valid attributes' do
       user = FactoryBot.build(:user)
@@ -31,10 +32,10 @@ RSpec.describe User, type: :model do
     end
 
     it 'should raise RecordInvalid for duplicate emails' do
-      user = FactoryBot.create(:user, email: 'duplicate@gmail.com') #should be created
+      FactoryBot.create(:user, email: 'duplicate@gmail.com') # should be created
       user2 = FactoryBot.build(:user, email: 'duplicate@gmail.com') # instantiate it and then save
       user2.save
-      expect(user2.errors[:email]).to include("has already been taken") # standard way
+      expect(user2.errors[:email]).to include('has already been taken') # standard way
       # expect(user2).to_not be_valid # works both
     end
   end
@@ -48,7 +49,7 @@ RSpec.describe User, type: :model do
       user = User.new
       expect(user.role).to eq('customer')
     end
-  endk
+  end
 
   context 'Custom Methods' do
     it 'has a set_role method' do

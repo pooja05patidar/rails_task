@@ -3,6 +3,7 @@
 # menu controller
 class MenuItemsController < ApplicationController
   before_action :authenticate_user!
+  before_action :pagination
   before_action :set_menu, only: %i[show update destroy]
   load_and_authorize_resource
 
@@ -13,6 +14,10 @@ class MenuItemsController < ApplicationController
                     MenuItem.all
                   end
     render json: @menu_items
+  end
+
+  def pagination
+    MenuItem.page params[:page]
   end
 
   def filter_menu

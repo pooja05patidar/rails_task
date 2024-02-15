@@ -30,7 +30,6 @@ module Users
     end
 
     def apply_for_owner
-      # debugger
       aadhaar_card_number = params[:aadhaar_card_number]
       id_proof = params[:id_proof]
       age = params[:age]
@@ -38,8 +37,12 @@ module Users
         render json: { error: 'Please provide aadhaar card number and id proof' }, status: :unprocessable_entity
         return
       end
-      current_user.update_columns(role: :owner_pending_approval, aadhaar_card_number: aadhaar_card_number,
-                                  id_proof: id_proof, age: age)
+      current_user.update_columns(
+        role: :owner_pending_approval,
+        aadhaar_card_number: aadhaar_card_number,
+        id_proof: id_proof,
+        age: age
+      )
       render json: { message: 'Owner request submitted for approval' }
       UserMailer.owner_request(current_user).deliver_now
     end

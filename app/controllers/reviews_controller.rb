@@ -53,14 +53,14 @@ class ReviewsController < ApplicationController
   end
 
   def update_average_rating(restaurant)
-    debugger
     return unless restaurant.present?
-
     total_ratings = restaurant.reviews.sum(:rating)
     total_reviews = restaurant.reviews.count
-
-    new_average_rating = total_reviews.positive? ? total_ratings / total_reviews.to_f : 0
-
+    if total_reviews.positive?
+      new_average_rating = total_ratings / total_reviews
+    else
+      new_average_rating = 0
+    end
     restaurant.update_columns(ratings: new_average_rating)
   end
 end

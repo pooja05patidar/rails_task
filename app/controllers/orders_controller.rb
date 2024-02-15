@@ -4,7 +4,13 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_id, only: %i[show update destroy]
+  before_action :pagination
   load_and_authorize_resource
+
+  def pagination
+    @order = Order.page params[:page]
+  end
+
   def index
     @order_items = Order.all
   end
@@ -30,9 +36,6 @@ class OrdersController < ApplicationController
   end
 
   def update
-    # debugger
-    # res_id = params.require(:order_item)[:restaurant_id]
-    # Restaurant.find(res_id)
     params.require(:order_item)[:menu_item_id]
     if @order_item.update(order_id: ord_item.id, user_id: user_id)
       render json: { status: { code: 200, message: 'Order item updated successfully' }, data: @order_item }
@@ -43,12 +46,7 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    # debugger
-    # @order_item = Order.find(params[:id])
     @order_item.destroy
-    # render json: { status: { code: 200, message: 'Order item deleted successfully' } }
-    # rescue ActiveRecord::RecordNotFound
-    # render json: {message: "Order not found with the specified ID: #{params[:id]}" }, status: :not_found
   end
 
   private

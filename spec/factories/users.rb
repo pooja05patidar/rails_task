@@ -13,5 +13,9 @@ FactoryBot.define do
     trait :with_unique_email do
       sequence(:email) { |n| "unique_email_#{n}@example.com" }
     end
+
+    trait :owner_pending_approval do
+      role { :owner_pending_approval }
+    end
   end
 end
