@@ -4,6 +4,7 @@
 class MenuItem < ApplicationRecord
   self.table_name = 'menu_item'
   validates :category, presence: true
+  validates :name, presence: true
   belongs_to :restaurant
   paginates_per 5
   has_many :cart_items, dependent: :destroy

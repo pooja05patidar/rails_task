@@ -44,10 +44,10 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  # gem 'factory_bot_rails'
+  gem 'factory_bot_rails'
 end
 
-gem 'factory_bot_rails', group: %i[development test]
+# gem 'factory_bot_rails', group: %i[development test]
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]

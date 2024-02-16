@@ -19,29 +19,29 @@ RSpec.describe Restaurant, type: :model do
       restaurant = build(:restaurant, name: 'existingName')
       expect(restaurant).to_not be_valid
     end
+  end
 
-    context 'Associations' do
-      it 'belongs to a user' do
-        association = described_class.reflect_on_association(:user)
-        expect(association.macro).to eq :belongs_to
-      end
+  context 'Associations' do
+    it 'belongs to a user' do
+      association = described_class.reflect_on_association(:user)
+      expect(association.macro).to eq :belongs_to
+    end
 
-      it 'has many menu items' do
-        association = described_class.reflect_on_association(:menu_items)
-        expect(association.macro).to eq :has_many
-        expect(association.options[:dependent]).to eq :destroy
-      end
+    it 'has many menu items' do
+      association = described_class.reflect_on_association(:menu_items)
+      expect(association.macro).to eq :has_many
+      expect(association.options[:dependent]).to eq :destroy
+    end
 
-      it 'has many orders' do
-        association = described_class.reflect_on_association(:orders)
-        expect(association.macro).to eq :has_many
-      end
+    it 'has many orders' do
+      association = described_class.reflect_on_association(:orders)
+      expect(association.macro).to eq :has_many
+    end
 
-      it 'has many reviews' do
-        association = described_class.reflect_on_association(:reviews)
-        expect(association.macro).to eq :has_many
-        expect(association.options[:dependent]).to eq :destroy
-      end
+    it 'has many reviews' do
+      association = described_class.reflect_on_association(:reviews)
+      expect(association.macro).to eq :has_many
+      expect(association.options[:dependent]).to eq :destroy
     end
   end
 end
