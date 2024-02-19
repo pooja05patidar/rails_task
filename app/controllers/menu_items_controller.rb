@@ -14,7 +14,7 @@ class MenuItemsController < ApplicationController
                   else
                     MenuItem.all
                   end
-    render json: @menu_items
+    # render json: @menu_items
   end
 
   def pagination
@@ -27,7 +27,8 @@ class MenuItemsController < ApplicationController
     render json: { status: { code: 200, message: 'Success' }, data: @filtered_menus }
   end
 
-  def show; end
+  def show
+  end
 
   def create
     res = Restaurant.find(menu_item_params[:restaurant_id])
@@ -42,9 +43,9 @@ class MenuItemsController < ApplicationController
   end
 
   def update
-    params.require(:menu)[:restaurant_id]
+    # params.require(:menu)[:restaurant_id]
     res = Restaurant.find(@id)
-    item = res.menus.update
+    item = res.menu_items.update
     if item.save
       render json: { status: { code: 200, message: 'Menu updated successfully' }, data: item }
     else
@@ -63,6 +64,6 @@ class MenuItemsController < ApplicationController
   end
 
   def menu_item_params
-    params.require(:menu_items).permit(:name, :description, :price, :restaurant_id, :category)
+    params.require(:menu_item).permit(:name, :description, :price, :restaurant_id, :category)
   end
 end
