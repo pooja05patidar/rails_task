@@ -8,7 +8,8 @@ class MenuItemsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @menu_items = if params[:category].present?
+    @menu_items = MenuItem.all
+    if params[:category].present?
                     MenuItem.where(category: params[:category])
                   else
                     MenuItem.all

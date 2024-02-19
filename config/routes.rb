@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources :orders
   resources :reviews
   resources :deliveries
-  get '/filter_menu', to: 'menus#filter_menu'
+  get '/filter_menu', to: 'menu_items#filter_menu'
   resources :customers
   resource :cart, only: [:show] do
     post 'add_to_cart/:menu_id', action: :add_to_cart, on: :member

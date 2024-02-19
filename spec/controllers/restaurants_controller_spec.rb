@@ -3,13 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe RestaurantsController, type: :controller do
-  before {sign_in(owner_user)}
   let(:user) { create(:user) }
   let(:owner_pending_approval_user) { create(:user, role: :owner_pending_approval) }
   let(:restaurant) { create(:restaurant, user: owner_pending_approval_user) }
   let(:restaurant) { create(:restaurant, is_active: is_active) }
   let(:is_active) { true }
-
 
   describe 'GET index' do
     it 'returns a successful response' do
@@ -69,7 +67,7 @@ RSpec.describe RestaurantsController, type: :controller do
         allow(controller).to receive(:current_ability).and_return(@ability)
         @ability.can(:update, restaurant)
       end
-      
+
       it 'can upadte restaurant' do
         new_name = 'Restaurant'
         patch :update, params: {id: restaurant.id, restaurant: {name: new_name}, format: :json}
