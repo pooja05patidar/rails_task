@@ -21,11 +21,11 @@ class CartItemsController < ApplicationController
     @cart_item = CartItem.new(cart_item_params)
 
     if @cart_item.save
-      render json: { status: { code: 201, message: 'Cart item created successfully' }, data: @cart_item },
+      render json: { status: { code: 201}, data: @cart_item },
              status: :created
     else
-      render json: { status: { code: 422, message: 'Cart item creation failed', errors: @cart_item.errors.full_messages } },
-             status: :unprocessable_entity
+      render json: { status: { code: 422, errors: @cart_item.errors.full_messages } },
+                    status: :unprocessable_entity
     end
   end
 

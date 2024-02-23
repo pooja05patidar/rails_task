@@ -16,6 +16,8 @@ class Ability
       can :create, Review
       can :read, Restaurant
       can :manage, Order
+      can :create, Order
+      can :show, Order
       can :read, MenuItem
       can :manage, CartItem
       can :manage, Cart, user_id: user.id

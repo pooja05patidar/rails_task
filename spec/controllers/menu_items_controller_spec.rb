@@ -23,7 +23,6 @@ RSpec.describe MenuItemsController, type: :controller do
         menu_item = create(:menu_item, name: 'Burger', description: 'Delicious')
         puts response.body
         get :filter_menu, params: {search_query: 'Burger' }, format: :json
-        # parsed_body = JSON.parse(response.body)
         expect(response).to be_successful
       end
     end

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       put 'reactivate'
     end
   end
+  get '/show', to: 'orders#show'
   resources :owners
   resources :menu_items
   resources :orders

@@ -12,7 +12,7 @@ class MenuItemsController < ApplicationController
     if params[:category].present?
                     MenuItem.where(category: params[:category])
                   else
-                    MenuItem.all
+                    @menu_items = MenuItem.all
                   end
     # render json: @menu_items
   end
@@ -35,10 +35,9 @@ class MenuItemsController < ApplicationController
     item = res.menu_items.create(menu_item_params)
 
     if item.save
-      render json: { status: { code: 200, message: 'Menu created successfully' }, menu: item }, status: 200
+      render json: { status: { code: 200}, menu: item }
     else
-      render json: { status: { code: 422, message: 'Menu creation failed', errors: item.errors.full_messages } },
-             status: 422
+      render json: { status: { code: 422, errors: item.errors.full_messages } }
     end
   end
 
@@ -47,9 +46,9 @@ class MenuItemsController < ApplicationController
     res = Restaurant.find(@id)
     item = res.menu_items.update
     if item.save
-      render json: { status: { code: 200, message: 'Menu updated successfully' }, data: item }
+      render json: { status: { code: 200,}, data: item }
     else
-      render json: { status: { code: 422, message: 'Menu update failed', errors: item.errors.full_messages } }
+      render json: { status: { code: 422, errors: item.errors.full_messages } }
     end
   end
 

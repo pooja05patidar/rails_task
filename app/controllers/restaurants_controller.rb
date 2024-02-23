@@ -35,7 +35,7 @@ class RestaurantsController < ApplicationController
 
   def reactivate
     @restaurant = @restaurant.update_attribute(:is_active, true)
-    render json: { status: { message: 'Reactivated successfully' }, restaurant: @restaurant }
+    render json: { message: 'Reactivated successfully' }, restaurant: @restaurant
   end
 
   def destroy
@@ -47,7 +47,7 @@ class RestaurantsController < ApplicationController
 
   def check_owner_approval
     return unless current_user.owner_pending_approval?
-    render json: { error: 'Your request for owner is not approved yet' }, status: :unprocessable_entity
+    render json: { error: 'owner request approved yet' }, status: :unprocessable_entity
   end
 
   def handle_record_not_found
