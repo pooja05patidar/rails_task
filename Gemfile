@@ -43,8 +43,10 @@ group :development, :test do
   gem 'faker'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
+  gem 'rswag-specs'
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
+  gem 'rswag'
 end
 
 # gem 'factory_bot_rails', group: %i[development test]
@@ -59,6 +61,7 @@ gem 'devise'
 gem 'devise-jwt'
 gem 'kaminari'
 gem 'mail'
+gem 'multi_json'
 gem 'ransack'
 gem 'rubocop-rails', require: false
 gem 'sidekiq'

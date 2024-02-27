@@ -17,10 +17,10 @@ class OrdersController < ApplicationController
 
   def show; end
 
+  debugger
   def create
     restaurant = Restaurant.find(order_item_params[:restaurant_id])
     menu_item = restaurant.menu_items.find(order_item_params[:menu_item_id])
-
     order = Order.create(order_id: menu_item.id, user_id: order_item_params[:user_id])
 
     if order.save
@@ -28,12 +28,12 @@ class OrdersController < ApplicationController
     else
       render json: { status: { code: 422, errors: order.errors.full_messages } }
     end
-  rescue StandardError => e
-    mssg = e.message
-
-    render json: { status: { code: 404, message: mssg }, data: nil }
+    @order = current_user.orders.create(order_item_params)
   end
 
+  rescue StandardError => e
+    mssg = e.message
+    render json: { status: { code: 404, message: mssg }, data: nil }
   def update
     params.require(:order_item)[:menu_item_id]
     if @order_item.update(order_id: ord_item.id, user_id: user_id)

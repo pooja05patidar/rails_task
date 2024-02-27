@@ -7,12 +7,12 @@ class Ability
     user ||= User.new
     if user.owner?
       return unless user.present?
-
       can :manage, MenuItem
+      can :create, Review
       can :deactivate, Restaurant, user: user
       can :manage, Restaurant, user_id: user.id
-      # can :manage, :all
     elsif user.customer?
+      can :read, Review
       can :create, Review
       can :read, Restaurant
       can :manage, Order

@@ -1,0 +1,147 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/show":
+    get:
+      summary: show order
+      responses:
+        '200':
+          description: successful
+  "/orders":
+    get:
+      summary: list orders
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create order
+      responses:
+        '200':
+          description: successful
+  "/orders/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show order
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update order
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update order
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete order
+      responses:
+        '200':
+          description: successful
+  "/restaurants/{id}/reactivate":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    put:
+      summary: reactivate restaurant
+      responses:
+        '200':
+          description: successful
+  "/restaurants":
+    get:
+      summary: list restaurants
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create restaurant
+      responses:
+        '200':
+          description: successful
+  "/restaurants/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show restaurant
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update restaurant
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update restaurant
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete restaurant
+      responses:
+        '200':
+          description: successful
+  "/reviews":
+    get:
+      summary: list reviews
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create review
+      responses:
+        '200':
+          description: successful
+  "/reviews/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show review
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update review
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update review
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete review
+      responses:
+        '200':
+          description: successful
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
