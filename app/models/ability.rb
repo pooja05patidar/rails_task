@@ -12,11 +12,12 @@ class Ability
       can :deactivate, Restaurant, user: user
       can :manage, Restaurant, user_id: user.id
     elsif user.customer?
+      return unless user.present?
       can :read, Review
       can :create, Review
       can :read, Restaurant
       can :manage, Order
-      can :create, Order
+      can :create, Order, user_id: user.id
       can :show, Order
       can :read, MenuItem
       can :manage, CartItem

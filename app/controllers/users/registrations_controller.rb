@@ -14,7 +14,7 @@ module Users
 
       if resource.save
         sign_up(resource_name, resource)
-        UserMailer.welcome_email(resource).deliver_now
+        # UserMailer.welcome_email(resource).deliver_now
         render json: {
           status: { code: 200, message: 'Signed up successfully', data: resource }
         }

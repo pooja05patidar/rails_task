@@ -3,6 +3,7 @@
 # user.rb
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
+  after_create :send_welcome_email
   paginates_per 5
   validates :email, presence: true, uniqueness: true
   validates :role, presence: true
@@ -30,5 +31,10 @@ class User < ApplicationRecord
 
   def set_role
     self.role ||= :customer
+  end
+
+  private
+  def send_welcome_email
+    SendEmailsJob.perform_now(self)
   end
 end

@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_order, only: %i[show update destroy]
   before_action :pagination
-  load_and_authorize_resource
+  # load_and_authorize_resource
 
   def pagination
     @order = Order.page params[:page]
@@ -17,23 +17,21 @@ class OrdersController < ApplicationController
 
   def show; end
 
-  debugger
   def create
     restaurant = Restaurant.find(order_item_params[:restaurant_id])
     menu_item = restaurant.menu_items.find(order_item_params[:menu_item_id])
-    order = Order.create(order_id: menu_item.id, user_id: order_item_params[:user_id])
-
+    order = Order.create(p)
     if order.save
-      render json: { status: { code: 200}, data: order }
+      render json: { status: { code: 200, message: 'Order item created successfully' }, data: order, data: menu_item }
     else
-      render json: { status: { code: 422, errors: order.errors.full_messages } }
+      render json: { status: { code: 422, message: 'Order item creation failed',
+                                errors: order.errors.full_messages } }
     end
-    @order = current_user.orders.create(order_item_params)
   end
 
-  rescue StandardError => e
-    mssg = e.message
-    render json: { status: { code: 404, message: mssg }, data: nil }
+  # rescue StandardError => e
+  #   mssg = e.message
+  #   render json: { status: { code: 404, message: mssg }, data: nil }
   def update
     params.require(:order_item)[:menu_item_id]
     if @order_item.update(order_id: ord_item.id, user_id: user_id)
@@ -48,9 +46,17 @@ class OrdersController < ApplicationController
   end
 
   private
-
+  def p
+    restaurant = Restaurant.find(order_item_params[:restaurant_id])
+    menu_item = restaurant.menu_items.find(order_item_params[:menu_item_id])
+    {
+      order_id: menu_item.id,
+      user_id: order_item_params[:user_id],
+      restaurant_id: order_item_params[:restaurant_id]
+    }
+  end
   def order_item_params
-    params.require(:order_item).permit(:order_id, :restaurant_id, :menu_item_id, :quantity, :total_price, :user_id)
+    params.require(:order).permit( :restaurant_id, :quantity,:menu_item_id, :total_price, :user_id)# :menu_item_id,:order_id,
   end
 
   def set_order
