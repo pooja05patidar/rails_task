@@ -7,8 +7,3 @@ json.data @menus do |menu|
   json.price menu.price
   json.restaurant_id menu.restaurant_id
 end
-# id: nil,
-#  name: nil,
-#  description: nil,
-#  price: nil,
-#  restaurant_id: nil,

@@ -3,23 +3,25 @@
 # user.rb
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
+
   after_create :send_welcome_email
   after_initialize :set_role, if: :new_record?
+
   paginates_per 5
   validates :email, presence: true, uniqueness: true
   validates :role, presence: true
   validates :password, presence: true, length: { minimum: 6 }
-  validates :name, :address, presence: { message: 'Please provide name and address' }
-  validates :contact, presence: { message: 'Please provide contact number' },
-                      numericality: { only_integer: true, message: 'Contact number should be a valid number' },
+  validates :name, :address, presence: true
+  validates :contact, presence: true,
+                      numericality: { only_integer: true },
                       length: { is: 10, message: 'Contact number should be 10 digits long' },
-                      uniqueness: { scope: :id, message: 'is already taken' }
+                      uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }, format: {
     with: /\A[\w[:punct:]]+\z/,
     message: 'should include at least one special character'
   }
-
   validates :username, presence: true, uniqueness: true
+
   has_many :restaurants, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_one :order, dependent: :destroy
