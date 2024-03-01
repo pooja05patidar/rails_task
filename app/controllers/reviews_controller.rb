@@ -48,19 +48,21 @@ class ReviewsController < ApplicationController
     params.require(:review).permit(:user_id, :restaurant_id, :rating, :comment)
   end
 
-  def get_review
+  def set_review
     @review = Review.find(params[:id])
   end
 
   def update_average_rating(restaurant)
     return unless restaurant.present?
+
     total_ratings = restaurant.reviews.sum(:rating)
     total_reviews = restaurant.reviews.count
-    if total_reviews.positive?
-      new_average_rating = total_ratings / total_reviews
-    else
-      new_average_rating = 0
-    end
+    # if total_reviews.positive?
+    #   new_average_rating = total_ratings / total_reviews
+    # else
+    #   new_average_rating = 0
+    # end
+    new_average_rating = total_reviews.positive? ? total_ratings / total_reviews : 0
     restaurant.update_columns(ratings: new_average_rating)
   end
 end

@@ -7,6 +7,7 @@ class RestaurantsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
   load_and_authorize_resource
   before_action :pagination
+
   def pagination
     @restaurants = Restaurant.page params[:page]
   end
@@ -47,6 +48,7 @@ class RestaurantsController < ApplicationController
 
   def check_owner_approval
     return unless current_user.owner_pending_approval?
+
     render json: { error: 'owner request approved yet' }, status: :unprocessable_entity
   end
 

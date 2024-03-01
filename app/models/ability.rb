@@ -3,29 +3,43 @@
 # ability.rb
 class Ability
   include CanCan::Ability
+
   def initialize(user)
     user ||= User.new
-    if user.owner?
-      return unless user.present?
-      can :manage, MenuItem
-      can :create, Review
-      can :deactivate, Restaurant, user: user
-      can :manage, Restaurant, user_id: user.id
-    elsif user.customer?
-      return unless user.present?
-      can :read, Review
-      can :create, Review
-      can :read, Restaurant
-      can :manage, Order
-      can :create, Order, user_id: user.id
-      can :show, Order
-      can :read, MenuItem
-      can :manage, CartItem
-      can :manage, Cart, user_id: user.id
-    elsif user.admin?
-      can :manage, :all
-    else
-      can :read, Restaurant
-    end
+
+    assign_owner_permissions(user) if user.owner?
+    assign_customer_permissions(user) if user.customer?
+    assign_admin_permissions if user.admin?
+    assign_default_permissions
+  end
+
+  private
+
+  def assign_owner_permissions(user)
+    return unless user.present?
+
+    can :manage, MenuItem
+    can :create, Review
+    can :deactivate, Restaurant, user: user
+    can :manage, Restaurant, user_id: user.id
+  end
+
+  def assign_customer_permissions(user)
+    return unless user.present?
+
+    can %i[read create], Review
+    can %i[read manage], Order, user_id: user.id
+    can :show, Order
+    can %i[read manage], MenuItem
+    can [:manage], CartItem
+    can [:manage], Cart, user_id: user.id
+  end
+
+  def assign_admin_permissions
+    can :manage, :all
+  end
+
+  def assign_default_permissions
+    can :read, Restaurant
   end
 end

@@ -18,24 +18,25 @@ class OrdersController < ApplicationController
   def show; end
 
   def create
-    restaurant = Restaurant.find(order_item_params[:restaurant_id])
-    menu_item = restaurant.menu_items.find(order_item_params[:menu_item_id])
-    order = Order.create(p)
+    restaurant = find_restaurant
+    menu_item = find_menu_item(restaurant)
+    order = create_order
+
     if order.save
-      render json: { status: { code: 200, message: 'Order item created successfully' }, data: order, data: menu_item }
+      render_successful_response(order, menu_item)
     else
-      render json: { status: { code: 422, message: 'Order item creation failed',
-                                errors: order.errors.full_messages } }
+      render_failed_response(order)
     end
   end
 
   # rescue StandardError => e
   #   mssg = e.message
   #   render json: { status: { code: 404, message: mssg }, data: nil }
+
   def update
     params.require(:order_item)[:menu_item_id]
     if @order_item.update(order_id: ord_item.id, user_id: user_id)
-      render json: { status: { code: 200}, data: @order_item }
+      render json: { status: { code: 200 }, data: @order_item }
     else
       render json: { status: { code: 422, errors: @order_item.errors.full_messages } }
     end
@@ -46,7 +47,8 @@ class OrdersController < ApplicationController
   end
 
   private
-  def p
+
+  def required_params
     restaurant = Restaurant.find(order_item_params[:restaurant_id])
     menu_item = restaurant.menu_items.find(order_item_params[:menu_item_id])
     {
@@ -55,8 +57,38 @@ class OrdersController < ApplicationController
       restaurant_id: order_item_params[:restaurant_id]
     }
   end
+
+  def find_restaurant
+    Restaurant.find(order_item_params[:restaurant_id])
+  end
+
+  def find_menu_item(restaurant)
+    restaurant.menu_items.find(order_item_params[:menu_item_id])
+  end
+
+  def create_order
+    Order.create(required_params)
+  end
+
+  def render_successful_response(order, menu_item)
+    render json: {
+      status: { code: 200, message: 'Order item created successfully' },
+      data: { order: order, menu_item: menu_item }
+    }
+  end
+
+  def render_failed_response(order)
+    render json: {
+      status: {
+        code: 422,
+        message: 'Order item creation failed',
+        errors: order.errors.full_messages
+      }
+    }
+  end
+
   def order_item_params
-    params.require(:order).permit( :restaurant_id, :quantity,:menu_item_id, :total_price, :user_id)# :menu_item_id,:order_id,
+    params.require(:order).permit(:restaurant_id, :quantity, :menu_item_id, :total_price, :user_id)
   end
 
   def set_order

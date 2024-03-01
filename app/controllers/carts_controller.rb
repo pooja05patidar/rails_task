@@ -26,8 +26,8 @@ class CartsController < ApplicationController
 
   def add_to_cart
     @cart = current_user.cart || current_user.create_cart
-    id = params[:cart_items][:menu_item_id]
-    menu = MenuItem.find(id)
+    # id = params[:cart_items][:menu_item_id]
+    # menu = MenuItem.find(id)
     update_cart_item_qty
     if @cart_item.save
       render_success_response

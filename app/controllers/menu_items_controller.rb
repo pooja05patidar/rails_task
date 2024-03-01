@@ -10,10 +10,10 @@ class MenuItemsController < ApplicationController
   def index
     @menu_items = MenuItem.all
     if params[:category].present?
-                    MenuItem.where(category: params[:category])
-                  else
-                    @menu_items = MenuItem.all
-                  end
+      MenuItem.where(category: params[:category])
+    else
+      @menu_items = MenuItem.all
+    end
     # render json: @menu_items
   end
 
@@ -27,8 +27,7 @@ class MenuItemsController < ApplicationController
     render json: { status: { code: 200, message: 'Success' }, data: @filtered_menus }
   end
 
-  def show
-  end
+  def show; end
 
   def create
     res = Restaurant.find(menu_item_params[:restaurant_id])
