@@ -12,10 +12,10 @@ class User < ApplicationRecord
   validates :role, presence: true
   validates :password, presence: true, length: { minimum: 6 }
   validates :name, :address, presence: true
-  validates :contact, presence: true,
-                      numericality: { only_integer: true },
+  validates :contact, presence: { message: 'Please provide contact number' },
+                      numericality: { only_integer: true, message: 'Contact number should be a valid number' },
                       length: { is: 10, message: 'Contact number should be 10 digits long' },
-                      uniqueness: true
+                      uniqueness: { scope: :id, message: 'is already taken' }
   validates :password, presence: true, length: { minimum: 6 }, format: {
     with: /\A[\w[:punct:]]+\z/,
     message: 'should include at least one special character'

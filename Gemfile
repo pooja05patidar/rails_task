@@ -65,3 +65,4 @@ gem 'multi_json'
 gem 'ransack'
 gem 'rubocop-rails', require: false
 gem 'sidekiq'
+gem 'simplecov', require: false, group: :test

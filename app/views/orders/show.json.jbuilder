@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.data do
-  json.id @order_item.id
-  json.user_id @order_item.user_id
+json.data @order do |order|
+  json.id order.id
+  json.user_id order.user_id
 end

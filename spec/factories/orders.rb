@@ -2,7 +2,9 @@
 
 FactoryBot.define do
   factory :order do
-    user { association :user }
+    user do
+      association :user, contact: Faker::Number.unique.number(digits: 10).to_s
+    end
     restaurant { association :restaurant }
     order_id { Faker::Number.unique.number }
   end

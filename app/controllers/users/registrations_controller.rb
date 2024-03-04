@@ -2,6 +2,7 @@
 
 # registration controller
 module Users
+  # class Registration controller
   class RegistrationsController < Devise::RegistrationsController
     respond_to :json
 
@@ -9,34 +10,17 @@ module Users
     before_action :configure_account_update_params, only: [:update]
 
     def create
-      # debugger
       build_resource(sign_up_params)
 
       if resource.save
-        sign_up(resource_name, resource)
-        # UserMailer.welcome_email(resource).deliver_now
-        render json: {
-          status: { code: 200, message: 'Signed up successfully', data: resource }
-        }
+        ret_success_response
       else
-        clean_up_passwords resource
-        set_minimum_password_length
-        render json: {
-          status: :unprocessable_entity,
-          message: 'User could not be created successfully',
-          errors: resource.errors.full_messages.to_json
-        }
+        ret_failed_response
       end
     end
 
     def apply_for_owner
-      aadhaar_card_number = params[:aadhaar_card_number]
-      id_proof = params[:id_proof]
-      age = params[:age]
-      if aadhaar_card_number.blank? || id_proof.blank?
-        render json: { error: 'Please provide aadhaar card number and id proof' }, status: :unprocessable_entity
-        return
-      end
+      user_details
       current_user.update_columns(
         role: :owner_pending_approval,
         aadhaar_card_number: aadhaar_card_number,
@@ -61,6 +45,33 @@ module Users
       else
         render json: { message: 'Unauthorized to perform this action' }, status: :unauthorized
       end
+    end
+
+    def user_details
+      aadhaar_card_number = params[:aadhaar_card_number]
+      id_proof = params[:id_proof]
+      # age = params[:age]
+      return unless aadhaar_card_number.blank? || id_proof.blank?
+
+      render json: { error: 'Please provide aadhaar card number and id proof' }, status: :unprocessable_entity
+    end
+
+    def ret_success_response
+      sign_up(resource_name, resource)
+      # UserMailer.welcome_email(resource).deliver_now
+      render json: {
+        status: { code: 200, message: 'Signed up successfully', data: resource }
+      }
+    end
+
+    def ret_failed_response
+      clean_up_passwords resource
+      set_minimum_password_length
+      render json: {
+        status: :unprocessable_entity,
+        message: 'User could not be created successfully',
+        errors: resource.errors.full_messages.to_json
+      }
     end
 
     protected

@@ -126,11 +126,13 @@ RSpec.describe RestaurantsController, type: :controller do
 
   describe '#check_owner_approval' do
     context 'when user is an owner with pending approval' do
+      before { sign_in owner_pending_approval_user}
       before { allow(controller).to receive(:current_user).and_return(owner_pending_approval_user) }
 
       it 'renders an error message' do
         post :create, params: { restaurant: attributes_for(:restaurant) }
         expect(response).to have_http_status(:unprocessable_entity)
+        puts response.body
         expect(JSON.parse(response.body)['error']).to eq('Your request for owner is not approved yet')
       end
     end

@@ -37,7 +37,6 @@ RSpec.describe MenuItemsController, type: :controller do
   end
 
   describe 'POST create' do
-    # debugger
     let(:valid_params){{restaurant_id: 1, name: 'Dish', price: 10.99, category: 'xyz'}}
     before do
       FactoryBot.create(:restaurant, id:1)
