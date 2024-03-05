@@ -33,14 +33,14 @@ module Users
     end
 
     def respond_to_on_destroy
-      if request.headers['Authorization'].present?
-        jwt_payload = decode_jwt
-        current_user = User.find(jwt_payload['sub'])
-        if current_user
-          return_success_response
-        else
-          return_failed_response
-        end
+      return unless request.headers['Authorization'].present?
+
+      jwt_payload = decode_jwt
+      current_user = User.find(jwt_payload['sub'])
+      if current_user
+        return_success_response
+      else
+        return_failed_response
       end
     end
 
@@ -61,7 +61,8 @@ module Users
     def decode_jwt
       JWT.decode(
         request.headers['Authorization'].split(' ').last,
-        Rails.application.credentials.fetch(:secret_key_base)).first
+        Rails.application.credentials.fetch(:secret_key_base)
+      ).first
     end
   end
 end

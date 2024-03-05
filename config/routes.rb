@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get '/login', to: 'sessions#new'
+
   devise_scope :user do
     post 'apply_for_owner', to: 'users/registrations#apply_for_owner'
     get 'users/:id', to: 'users/sessions#show'

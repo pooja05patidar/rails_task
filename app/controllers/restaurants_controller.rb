@@ -47,9 +47,9 @@ class RestaurantsController < ApplicationController
   private
 
   def check_owner_approval
-    if current_user.owner_pending_approval?
-      render json: { error: 'Your request for owner is not approved yet' }, status: :unprocessable_entity
-    end
+    return unless current_user.owner_pending_approval?
+
+    render json: { error: 'Your request for owner is not approved yet' }, status: :unprocessable_entity
   end
 
   def handle_record_not_found

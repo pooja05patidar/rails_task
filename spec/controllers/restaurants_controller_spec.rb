@@ -70,7 +70,7 @@ RSpec.describe RestaurantsController, type: :controller do
 
       it 'can upadte restaurant' do
         new_name = 'Restaurant'
-        patch :update, params: {id: restaurant.id, restaurant: {name: new_name}, format: :json}
+        patch :update, params: { id: restaurant.id, restaurant: { name: new_name }, format: :json }
         restaurant.reload
 
         expect(response).to have_http_status(200)
@@ -81,7 +81,7 @@ RSpec.describe RestaurantsController, type: :controller do
     context 'when user is not owner of restaurant' do
       it 'can not update restaurant' do
         new_name = 'Restaurant'
-        patch :update, params: {id: restaurant.id, restaurant: {name: new_name}, format: :json}
+        patch :update, params: { id: restaurant.id, restaurant: { name: new_name }, format: :json }
         expect(response).to have_http_status(403)
         restaurant.reload
         expect(restaurant.name).not_to eq(new_name)
@@ -89,8 +89,8 @@ RSpec.describe RestaurantsController, type: :controller do
     end
 
     context 'deactivated restaurant' do
-      let (:is_active){true}
-      it 'can reactivate restaurant'do
+      let(:is_active) { true }
+      it 'can reactivate restaurant' do
         expect(restaurant.is_active).to eq(true)
       end
     end
@@ -98,16 +98,16 @@ RSpec.describe RestaurantsController, type: :controller do
 
   describe 'DELETE deactivate' do
     context 'Role is owner and it created the restaurant' do
-      before {sign_in(owner_user)}
+      before { sign_in(owner_user) }
       before do
         @ability = Object.new
         @ability.extend(CanCan::Ability)
         allow(controller).to receive(:current_ability).and_return(@ability)
         @ability.can(:destroy, restaurant)
       end
-      let(:is_active) {false}
+      let(:is_active) { false }
       it 'deactivate restaurant' do
-        delete :destroy, params:{id: restaurant.id}
+        delete :destroy, params: { id: restaurant.id }
         restaurant.reload
         expect(restaurant.is_active).to be false
         expect(response).to have_http_status(200)
@@ -115,9 +115,9 @@ RSpec.describe RestaurantsController, type: :controller do
     end
 
     context 'role is owner but did not created the restaurant' do
-      let(:is_active){false}
+      let(:is_active) { false }
       it 'do not deactivate restaurant' do
-        delete :destroy, params:{id: restaurant.id}
+        delete :destroy, params: { id: restaurant.id }
         restaurant.reload
         expect(response).to have_http_status(403)
       end
@@ -126,7 +126,7 @@ RSpec.describe RestaurantsController, type: :controller do
 
   describe '#check_owner_approval' do
     context 'when user is an owner with pending approval' do
-      before { sign_in owner_pending_approval_user}
+      before { sign_in owner_pending_approval_user }
       before { allow(controller).to receive(:current_user).and_return(owner_pending_approval_user) }
 
       it 'renders an error message' do
@@ -169,7 +169,10 @@ RSpec.describe RestaurantsController, type: :controller do
       }
       allow(controller).to receive(:params).and_return(ActionController::Parameters.new(params))
       permitted_params = controller.send(:restaurant_params)
-      expect(permitted_params).to eq(ActionController::Parameters.new(params[:restaurant]).permit(:name, :description, :ratings, :is_active))
+      expect(permitted_params).to eq(
+        ActionController::Parameters.new(params[:restaurant])
+        .permit(:name, :description, :ratings, :is_active)
+      )
     end
   end
 end

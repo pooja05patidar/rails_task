@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# class UserMailer
 class UserMailer < ApplicationMailer
   default from: 'patidar.wk@gmail.com'
   def welcome_email(user)

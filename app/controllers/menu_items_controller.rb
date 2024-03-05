@@ -34,7 +34,7 @@ class MenuItemsController < ApplicationController
     item = res.menu_items.create(menu_item_params)
 
     if item.save
-      render json: { status: { code: 200}, menu: item }
+      render json: { status: { code: 200 }, menu: item }
     else
       render json: { status: { code: 422, errors: item.errors.full_messages } }
     end
@@ -44,7 +44,7 @@ class MenuItemsController < ApplicationController
     res = Restaurant.find(@id)
     item = res.menu_items.update
     if item.save
-      render json: { status: { code: 200,}, data: item }
+      render json: { status: { code: 200 }, data: item }
     else
       render json: { status: { code: 422, errors: item.errors.full_messages } }
     end

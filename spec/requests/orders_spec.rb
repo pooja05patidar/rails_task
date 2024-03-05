@@ -1,16 +1,16 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'orders', type: :request do
-
   path '/show' do
-
     get('show order') do
+      parameters name: :id, in: :query, type: :integer, description: 'ID of the order to retrieve', required: true
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
+              show_order: JSON.parse(response.body, symbolize_names: true)
             }
           }
         end
@@ -20,10 +20,9 @@ RSpec.describe 'orders', type: :request do
   end
 
   path '/orders' do
-
     get('list orders') do
       response(200, 'successful') do
-
+        parameter name: 'id', in: :path, type: :string, description: 'id'
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -37,7 +36,6 @@ RSpec.describe 'orders', type: :request do
 
     post('create order') do
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -52,7 +50,6 @@ RSpec.describe 'orders', type: :request do
 
   path '/orders/{id}' do
     # You'll want to customize the parameter types...
-    parameter name: 'id', in: :path, type: :string, description: 'id'
 
     get('show order') do
       response(200, 'successful') do

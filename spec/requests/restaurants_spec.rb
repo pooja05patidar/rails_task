@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'restaurants', type: :request do
-
   path '/restaurants/{id}/reactivate' do
     # You'll want to customize the parameter types...
     parameter name: 'id', in: :path, type: :string, description: 'id'
@@ -23,10 +24,8 @@ RSpec.describe 'restaurants', type: :request do
   end
 
   path '/restaurants' do
-
     get('list restaurants') do
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -40,7 +39,6 @@ RSpec.describe 'restaurants', type: :request do
 
     post('create restaurant') do
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
