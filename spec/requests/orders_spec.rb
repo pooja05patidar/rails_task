@@ -5,7 +5,7 @@ require 'swagger_helper'
 RSpec.describe 'orders', type: :request do
   path '/show' do
     get('show order') do
-      parameters name: :id, in: :query, type: :integer, description: 'ID of the order to retrieve', required: true
+      parameter name: :id, in: :query, type: :integer, description: 'ID of the order to retrieve', required: true
       response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {

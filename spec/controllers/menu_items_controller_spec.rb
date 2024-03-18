@@ -11,8 +11,6 @@ RSpec.describe MenuItemsController, type: :controller do
     context 'get index' do
       it 'returns a successful response' do
         get :index, format: :json
-        puts response.body
-        puts response.status
         parsed_body = JSON.parse(response.body)
         expect(parsed_body).to contain_exactly(['data', []])
       end
@@ -20,7 +18,6 @@ RSpec.describe MenuItemsController, type: :controller do
 
     context 'get filter menu items' do
       it 'resturns filtered items' do
-        puts response.body
         get :filter_menu, params: { search_query: 'Burger' }, format: :json
         expect(response).to be_successful
       end
@@ -28,22 +25,24 @@ RSpec.describe MenuItemsController, type: :controller do
 
     context 'get show menu item ' do
       it 'returns a menu item ' do
-        puts response.body
-        puts response.status
         get :show, params: { id: menu_items.id }, format: :json
       end
     end
   end
 
   describe 'POST create' do
-    let(:valid_params) { { restaurant_id: 1, name: 'Dish', price: 10.99, category: 'xyz' } }
+    let(:valid_params) do
+      {
+        restaurant_id: 1,
+        name: 'Dish', price: 10.99, category: 'xyz'
+      }
+    end
     before do
       FactoryBot.create(:restaurant, id: 1)
     end
     context 'with valid params' do
       it 'creates menu item' do
         post :create, params: { menu_item: valid_params }
-        puts response.body
         expect(response).to have_http_status(200)
       end
     end

@@ -7,7 +7,6 @@ class OrdersController < ApplicationController
   before_action :set_order, only: %i[show update destroy]
   before_action :pagination
   include OrderHelper
-
   def pagination
     @order = Order.page params[:page]
   end

@@ -39,7 +39,7 @@ class ReviewsController < ApplicationController
     @review.destroy
     update_average_rating(restaurant)
 
-    head :no_content
+    # head :no_content
   end
 
   private
@@ -53,16 +53,17 @@ class ReviewsController < ApplicationController
   end
 
   def update_average_rating(restaurant)
-    return unless restaurant.present?
+    if restaurant.present?
+      total_ratings = restaurant.reviews.sum(:rating)
+      total_reviews = restaurant.reviews.count
+    end
 
-    total_ratings = restaurant.reviews.sum(:rating)
-    total_reviews = restaurant.reviews.count
-    # if total_reviews.positive?
-    #   new_average_rating = total_ratings / total_reviews
-    # else
-    #   new_average_rating = 0
-    # end
-    new_average_rating = total_reviews.positive? ? total_ratings / total_reviews : 0
+    new_average_rating = if total_reviews.positive?
+                           total_ratings / total_reviews
+                         else
+                           0
+                         end
+    # new_average_rating = total_reviews.positive? ? total_ratings / total_reviews : 0
     restaurant.update_columns(ratings: new_average_rating)
   end
 end

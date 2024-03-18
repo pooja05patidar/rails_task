@@ -60,6 +60,7 @@ RSpec.describe RestaurantsController, type: :controller do
 
   describe 'patch update' do
     context 'when user is owner' do
+      # parameter name: 'id', in: :path, type: :string, description: 'id'
       before { sign_in(owner_user) }
       before do
         @ability = Object.new
@@ -132,7 +133,6 @@ RSpec.describe RestaurantsController, type: :controller do
       it 'renders an error message' do
         post :create, params: { restaurant: attributes_for(:restaurant) }
         expect(response).to have_http_status(:unprocessable_entity)
-        puts response.body
         expect(JSON.parse(response.body)['error']).to eq('Your request for owner is not approved yet')
       end
     end

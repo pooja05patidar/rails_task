@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root 'pages#home'
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   get 'admin/index'
-
   devise_for :users, controllers: {
     sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    omniauth_callbacks: 'users/omniauth_callbacks'
   }
-
-  get 'auth/:provider/callback', to: 'sessions#create'
-  get '/login', to: 'sessions#new'
 
   devise_scope :user do
     post 'apply_for_owner', to: 'users/registrations#apply_for_owner'
@@ -24,7 +22,6 @@ Rails.application.routes.draw do
       put 'reactivate'
     end
   end
-
   resources :menu_items
   resources :orders
   resources :reviews

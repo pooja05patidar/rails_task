@@ -9,7 +9,7 @@ class Ability
 
     assign_owner_permissions(user) if user.owner?
     assign_customer_permissions(user) if user.customer?
-    assign_admin_permissions if user.admin?
+    assign_admin_permissions(user) if user.admin?
     assign_default_permissions
   end
 
@@ -30,9 +30,11 @@ class Ability
     can %i[read create], Review
     can %i[read manage], Order, user_id: user.id
     can :show, Order
+    can :home, Restaurant
     can %i[read manage], MenuItem
     can [:manage], CartItem
     can [:manage], Cart, user_id: user.id
+    can :apply_for_owner
   end
 
   def assign_admin_permissions

@@ -4,6 +4,9 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
+  devise :database_authenticatable, :registerable, :omniauthable,
+         :recoverable, :rememberable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: self, omniauth_providers: [:google_oauth2]
   after_create :send_welcome_email
   after_initialize :set_role, if: :new_record?
 
@@ -28,14 +31,22 @@ class User < ApplicationRecord
   has_many :cart_items
   has_one :cart
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
-
   enum role: { customer: 0, owner_pending_approval: 1, owner: 2, admin: 3 }
 
   def set_role
     self.role ||= :customer
+  end
+
+  # def self.from_omniauth(auth)
+  #   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+  #     user.email = auth.info.email
+  #     user.password = Devise.friendly_token[0,20]
+  #     user.fullname = auth.info.name
+  #     user.avatar_url = auth.info.image
+  #   end
+  # end
+  def self.from_omniauth(auth)
+    find_by_provider_and_uid(auth["provider"], auth["uid"]) || create_with_omniauth(auth)
   end
 
   private

@@ -11,7 +11,7 @@ class RestaurantsController < ApplicationController
   def pagination
     @restaurants = Restaurant.page params[:page]
   end
-
+  
   def index
     @restaurant = Restaurant.all
     render json: @restaurant
@@ -47,9 +47,9 @@ class RestaurantsController < ApplicationController
   private
 
   def check_owner_approval
-    return unless current_user.owner_pending_approval?
-
-    render json: { error: 'Your request for owner is not approved yet' }, status: :unprocessable_entity
+    if current_user.owner_pending_approval?
+      render json: { error: 'Your request for owner is not approved yet' }, status: :unprocessable_entity
+    end
   end
 
   def handle_record_not_found

@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
-# SessionsController
-
 module Users
   # class Sessions controller
   class SessionsController < Devise::SessionsController
+    skip_before_action :verify_authenticity_token, raise: false
     before_action :pagination
-    respond_to :json
-
     def pagination
       @users = User.page(params[:page])
     end
@@ -22,21 +19,20 @@ module Users
       render json: @users
     end
 
-    private
 
     def respond_with(current_user, _opts = {})
-      render json: {
-        code: 200,
-        message: 'Logged in successfully.',
-        data: current_user
+    render json: {
+      code: 200,
+      message: 'Logged in successfully.',
+      data: current_user
       }, status: :ok
     end
 
     def respond_to_on_destroy
-      return unless request.headers['Authorization'].present?
-
-      jwt_payload = decode_jwt
-      current_user = User.find(jwt_payload['sub'])
+      if request.headers['Authorization'].present?
+        jwt_payload = decode_jwt
+        current_user = User.find(jwt_payload['sub'])
+      end
       if current_user
         return_success_response
       else
@@ -44,6 +40,7 @@ module Users
       end
     end
 
+    private
     def return_success_response
       render json: {
         status: 200,

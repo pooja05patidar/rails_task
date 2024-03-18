@@ -49,22 +49,16 @@ group :development, :test do
   gem 'shoulda-matchers'
 end
 
-# gem 'factory_bot_rails', group: %i[development test]
-
 group :development do
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
 end
 gem 'active_model_serializers'
 gem 'cancancan'
 gem 'devise'
 gem 'devise-jwt'
 gem 'kaminari'
-gem 'mail'
-gem 'multi_json'
 gem 'omniauth'
+gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'ransack'
-gem 'rubocop-rails', require: false
 gem 'sidekiq'
-gem 'simplecov', require: false, group: :test
+gem 'simplecov'

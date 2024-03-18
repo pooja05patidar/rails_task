@@ -5,11 +5,12 @@ module Users
   # class Registration controller
   class RegistrationsController < Devise::RegistrationsController
     respond_to :json
-
+    before_action :authenticate_user!
     before_action :configure_sign_up_params, only: [:create]
     before_action :configure_account_update_params, only: [:update]
 
     def create
+
       build_resource(sign_up_params)
 
       if resource.save
@@ -20,15 +21,26 @@ module Users
     end
 
     def apply_for_owner
-      user_details
-      current_user.update_columns(
-        role: :owner_pending_approval,
-        aadhaar_card_number: aadhaar_card_number,
-        id_proof: id_proof,
-        age: age
-      )
-      render json: { message: 'Owner request submitted for approval' }
-      UserMailer.owner_request(current_user).deliver_now
+      aadhaar_card_number = params[:aadhaar_card_number]
+      id_proof = params[:id_proof]
+      age = params[:age]
+      if aadhaar_card_number.blank? || id_proof.blank?
+        render json: { error: 'Please provide aadhaar card number and id proof' }, status: :unprocessable_entity
+        return
+      end
+      current_user = User.last
+      if current_user.role == 'customer'
+        current_user.update_columns(
+          role: :owner_pending_approval,
+          aadhaar_card_number: aadhaar_card_number,
+          id_proof: id_proof,
+          age: age
+        )
+        render json: { message: 'Owner request submitted for approval' }
+        UserMailer.owner_request(current_user).deliver_now
+      else
+        render json: { message: 'You are not authorized for this action' }
+      end
     end
 
     private
@@ -37,28 +49,9 @@ module Users
       params.require(:user).permit(:contact)
     end
 
-    def admin_approve_owner
-      if current_user.admin?
-        user = User.find(params[:user_id])
-        user.update(_role: :owner, approved_by_admin: true)
-        render json: { message: 'User approved as owner' }
-      else
-        render json: { message: 'Unauthorized to perform this action' }, status: :unauthorized
-      end
-    end
-
-    def user_details
-      aadhaar_card_number = params[:aadhaar_card_number]
-      id_proof = params[:id_proof]
-      # age = params[:age]
-      return unless aadhaar_card_number.blank? || id_proof.blank?
-
-      render json: { error: 'Please provide aadhaar card number and id proof' }, status: :unprocessable_entity
-    end
 
     def ret_success_response
       sign_up(resource_name, resource)
-      # UserMailer.welcome_email(resource).deliver_now
       render json: {
         status: { code: 200, message: 'Signed up successfully', data: resource }
       }
@@ -71,7 +64,7 @@ module Users
         status: :unprocessable_entity,
         message: 'User could not be created successfully',
         errors: resource.errors.full_messages.to_json
-      }
+      }, status: :unprocessable_entity
     end
 
     protected

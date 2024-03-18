@@ -23,7 +23,7 @@ module OrderHelper
 
   def render_successful_response(order, menu_item)
     render json: {
-      status: { code: 200, message: 'Order item created successfully' },
+      status: { code: 200, message: 'Order placed successfully' },
       data: { order: order, menu_item: menu_item }
     }
   end
@@ -32,7 +32,7 @@ module OrderHelper
     render json: {
       status: {
         code: 422,
-        message: 'Order item creation failed',
+        message: 'Order placing failed',
         errors: order.errors.full_messages
       }
     }
