@@ -4,9 +4,9 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
-  devise :database_authenticatable, :registerable, :omniauthable,
+  devise :database_authenticatable, :registerable , #, :omniauthable,
          :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self, omniauth_providers: [:google_oauth2]
+         :jwt_authenticatable, jwt_revocation_strategy: self #, omniauth_providers: [:google_oauth2]
   after_create :send_welcome_email
   after_initialize :set_role, if: :new_record?
 
@@ -44,10 +44,10 @@ class User < ApplicationRecord
   #     user.fullname = auth.info.name
   #     user.avatar_url = auth.info.image
   #   end
+  # # end
+  # def self.from_omniauth(auth)
+  #   find_by_provider_and_uid(auth["provider"], auth["uid"]) || create_with_omniauth(auth)
   # end
-  def self.from_omniauth(auth)
-    find_by_provider_and_uid(auth["provider"], auth["uid"]) || create_with_omniauth(auth)
-  end
 
   private
 

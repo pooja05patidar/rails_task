@@ -9,10 +9,9 @@ module Users
     before_action :configure_sign_up_params, only: [:create]
     before_action :configure_account_update_params, only: [:update]
 
+    # debugger
     def create
-
       build_resource(sign_up_params)
-
       if resource.save
         ret_success_response
       else
@@ -48,7 +47,6 @@ module Users
     def current_user_params
       params.require(:user).permit(:contact)
     end
-
 
     def ret_success_response
       sign_up(resource_name, resource)

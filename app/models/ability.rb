@@ -34,7 +34,6 @@ class Ability
     can %i[read manage], MenuItem
     can [:manage], CartItem
     can [:manage], Cart, user_id: user.id
-    can :apply_for_owner
   end
 
   def assign_admin_permissions

@@ -63,7 +63,6 @@ class ReviewsController < ApplicationController
                          else
                            0
                          end
-    # new_average_rating = total_reviews.positive? ? total_ratings / total_reviews : 0
     restaurant.update_columns(ratings: new_average_rating)
   end
 end

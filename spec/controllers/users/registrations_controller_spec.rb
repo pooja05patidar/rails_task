@@ -10,10 +10,11 @@ RSpec.describe Users::RegistrationsController, type: :controller do
   before do
     @request.env['devise.mapping'] = Devise.mappings[:user]
   end
+  
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new user' do
-        ActionMailer::Base.deliveries.clear
+        # ActionMailer::Base.deliveries.clear
         post :create, params: {
           user: FactoryBot.attributes_for(:user)
         }
@@ -30,6 +31,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         expect(created_user.email).to be_present
       end
     end
+
     context 'with invalid params' do
       it 'returns an unprocessable entity response' do
         post :create, params: {
@@ -43,8 +45,18 @@ RSpec.describe Users::RegistrationsController, type: :controller do
   end
 
   describe 'protected methods' do
-    let(:params) { ActionController::Parameters.new(user: { name: 'xyz', email: 'xyz@example.com', password: 'password',
-                                                            address: '123 Street', contact: '1234567890', role: 'user', username: 'xyzz' }) }
+    let(:params) { ActionController::Parameters.new(user:
+      {
+        name: 'xyz',
+        email: 'xyz@example.com',
+        password: 'password',
+        address: '123 Street',
+        contact: '1234567890',
+        role: 'user',
+        username: 'xyzz'
+      })
+    }
+
     describe '#configure_sign_up_params' do
       it 'permits sign-up parameters' do
         controller.send(:configure_sign_up_params)

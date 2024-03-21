@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require_dependency 'order_helper'
+# require_dependency 'order_helper'
 # order controller
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  load_and_authorize_resource
   before_action :set_order, only: %i[show update destroy]
   before_action :pagination
   include OrderHelper
@@ -26,10 +27,6 @@ class OrdersController < ApplicationController
       render_failed_response(order)
     end
   end
-
-  # rescue StandardError => e
-  #   mssg = e.message
-  #   render json: { status: { code: 404, message: mssg }, data: nil }
 
   def update
     params.require(:order_item)[:menu_item_id]

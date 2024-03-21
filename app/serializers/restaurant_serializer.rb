@@ -2,8 +2,14 @@
 
 # restaurant serializer
 class RestaurantSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :ratings, :user_id, :is_active
-  has_many :menu_items, dependent: :destroy
-  has_many :orders
-  has_many :reviews, dependent: :destroy
+  attributes :id, :name, :description, :ratings, :is_active, :menu_items
+
+  def menu_items
+    object.menu_items.map do |menu_item|
+      {
+        id: menu_item.id,
+        category: menu_item.category
+      }
+    end
+  end
 end

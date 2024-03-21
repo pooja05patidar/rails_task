@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'pages#home'
+  # root 'pages#home'
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   get 'admin/index'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
-    registrations: 'users/registrations',
-    omniauth_callbacks: 'users/omniauth_callbacks'
+    registrations: 'users/registrations'
+    # omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
   devise_scope :user do
     post 'apply_for_owner', to: 'users/registrations#apply_for_owner'
     get 'users/:id', to: 'users/sessions#show'
+    get 'users', to: 'users/sessions#index'
+    post 'users/id', to: 'users/sessions#respond_to_on_destroy'
   end
 
   post 'admin/approve_owner/:user_id', to: 'admin#approve_owner'

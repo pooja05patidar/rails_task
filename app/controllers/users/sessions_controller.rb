@@ -19,12 +19,11 @@ module Users
       render json: @users
     end
 
-
     def respond_with(current_user, _opts = {})
-    render json: {
-      code: 200,
-      message: 'Logged in successfully.',
-      data: current_user
+      render json: {
+        code: 200,
+        message: 'Logged in successfully.',
+        data: current_user
       }, status: :ok
     end
 
@@ -41,6 +40,7 @@ module Users
     end
 
     private
+
     def return_success_response
       render json: {
         status: 200,
