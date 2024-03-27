@@ -6,11 +6,11 @@ RSpec.describe Users::RegistrationsController, type: :controller do
   include Devise::Test::ControllerHelpers
   let(:admin_user) { create(:user, role: :admin) }
   let(:owner_user) { create(:user, role: :owner) }
-  let(:customer_user) { create(:user, role: :customer)}
+  let(:customer_user) { create(:user, role: :customer) }
   before do
     @request.env['devise.mapping'] = Devise.mappings[:user]
   end
-  
+
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new user' do
@@ -45,7 +45,8 @@ RSpec.describe Users::RegistrationsController, type: :controller do
   end
 
   describe 'protected methods' do
-    let(:params) { ActionController::Parameters.new(user:
+    let(:params) {
+      ActionController::Parameters.new(user:
       {
         name: 'xyz',
         email: 'xyz@example.com',

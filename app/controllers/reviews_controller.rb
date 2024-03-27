@@ -5,7 +5,7 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
   before_action :pagination
-
+  before_action :set_review, only: %i[show update destroy]
   def pagination
     @reviews = Review.page params[:page]
   end
@@ -38,8 +38,6 @@ class ReviewsController < ApplicationController
     restaurant = @review.restaurant
     @review.destroy
     update_average_rating(restaurant)
-
-    # head :no_content
   end
 
   private

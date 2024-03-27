@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :reviews
 
   get '/filter_menu', to: 'menu_items#filter_menu'
-
+  resources :cart_items
   resource :cart, only: [:show] do
     post 'add_to_cart/:menu_id', action: :add_to_cart, on: :member
     delete 'remove_from_cart/:id', action: :remove_from_cart, on: :member

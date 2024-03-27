@@ -27,7 +27,7 @@ class RestaurantsController < ApplicationController
 
   def create
     @restaurant = current_user.restaurants.create(restaurant_params)
-    # render json: @restaurant
+    render json: @restaurant
   end
 
   def update

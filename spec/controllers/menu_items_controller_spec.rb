@@ -7,6 +7,7 @@ RSpec.describe MenuItemsController, type: :controller do
   before { sign_in(owner_user) }
   let(:user) { create(:user) }
   let(:menu_items) { create(:menu_item) }
+
   describe 'GET menu item' do
     context 'get index' do
       it 'returns a successful response' do
@@ -55,21 +56,22 @@ RSpec.describe MenuItemsController, type: :controller do
       end
     end
   end
+
   describe 'menu item params' do
     it 'permits only the allowed parameters' do
-      params = {
-        menu_item: {
-          name: 'Test Item',
-          description: 'test Description',
-          category: 'xyz'
-        }
-      }
-      allow(controller).to receive(:params).and_return(ActionController::Parameters.new(params))
-      permitted_params = controller.send(:menu_item_params)
-      expect(permitted_params).to eq(
-        ActionController::Parameters.new(params[:menu_item])
-        .permit(:name, :description, :category)
-      )
+      menu_params
     end
   end
+end
+
+def menu_params
+  params = {
+    menu_item: { name: 'Item', description: 'Description', category: 'xyz' }
+  }
+  allow(controller).to receive(:params).and_return(ActionController::Parameters.new(params))
+  permitted_params = controller.send(:menu_item_params)
+  expect(permitted_params).to eq(
+    ActionController::Parameters.new(params[:menu_item])
+    .permit(:name, :description, :category)
+  )
 end

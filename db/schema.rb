@@ -10,16 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_14_181522) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_27_001104) do
   create_table "cart_items", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "menu_id", null: false
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "cart_id"
+    t.integer "menu_item_id"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
-    t.index ["menu_id"], name: "index_cart_items_on_menu_id"
     t.index ["user_id"], name: "index_cart_items_on_user_id"
   end
 
@@ -130,7 +129,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_14_181522) do
   end
 
   add_foreign_key "cart_items", "carts"
-  add_foreign_key "cart_items", "menu_item", column: "menu_id"
   add_foreign_key "cart_items", "users"
   add_foreign_key "carts", "users"
   add_foreign_key "deliveries", "orders"

@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-# require_dependency 'order_helper'
+require_dependency 'order_helper'
 # order controller
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource
   before_action :set_order, only: %i[show update destroy]
   before_action :pagination
   include OrderHelper
@@ -38,7 +37,7 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    @order_item.destroy
+    @order.destroy(params[:id])
   end
 
   private

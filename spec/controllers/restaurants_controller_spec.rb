@@ -60,7 +60,6 @@ RSpec.describe RestaurantsController, type: :controller do
 
   describe 'patch update' do
     context 'when user is owner' do
-      # parameter name: 'id', in: :path, type: :string, description: 'id'
       before { sign_in(owner_user) }
       before do
         @ability = Object.new

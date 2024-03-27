@@ -3,7 +3,6 @@
 # admin controller
 class AdminController < ApplicationController
   before_action :authenticate_user!
-  # load_and_authorize_resource :user
   def index
     @owner_requests = User.where(role: :owner_pending_approval)
     render json: { owner_requests: @owner_requests }

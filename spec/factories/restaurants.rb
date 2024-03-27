@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# /factories/restaurants.rb
 FactoryBot.define do
   factory :restaurant do
     name { Faker::Name.name }

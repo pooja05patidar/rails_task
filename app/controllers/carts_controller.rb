@@ -15,7 +15,8 @@ class CartsController < ApplicationController
   end
 
   def update_cart_item_qty
-    @cart_item = @cart.cart_items.find_or_initialize_by(menu_id: menu.id)
+    menu_item_id = params[:cart_items][:menu_item_id] # Retrieve menu_item_id from nested params
+    @cart_item = @cart.cart_items.find_or_initialize_by(menu_item_id: menu_item_id)
     if @cart_item.new_record?
       @cart_item.quantity = 1
       @cart_item.user_id = current_user.id
