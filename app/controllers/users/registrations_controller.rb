@@ -29,17 +29,21 @@ module Users
       end
       current_user = User.last
       if current_user.role == 'customer'
-        current_user.update_columns(
-          role: :owner_pending_approval,
-          aadhaar_card_number: aadhaar_card_number,
-          id_proof: id_proof,
-          age: age
-        )
-        render json: { message: 'Owner request submitted for approval' }
-        UserMailer.owner_request(current_user).deliver_now
+        update_user_column
       else
         render json: { message: 'You are not authorized for this action' }
       end
+    end
+
+    def update_user_column
+      current_user.update_columns(
+        role: :owner_pending_approval,
+        aadhaar_card_number: aadhaar_card_number,
+        id_proof: id_proof,
+        age: age
+      )
+      render json: { message: 'Owner request submitted for approval' }
+      UserMailer.owner_request(current_user).deliver_now
     end
 
     private

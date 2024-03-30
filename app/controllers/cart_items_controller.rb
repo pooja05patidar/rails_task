@@ -19,19 +19,38 @@ class CartItemsController < ApplicationController
 
   def create
     @cart_item = CartItem.new(cart_item_params)
-
-    if @cart_item.save
-      render json: { status: { code: 201 }, data: @cart_item },
-             status: :created
+    if @cart_item.blank?
+      @cart_item.quantity = 1
+      @cart_item.user_id = current_user.id
     else
-      render json: { status: { code: 422, errors: @cart_item.errors.full_messages } },
-             status: :unprocessable_entity
+      @cart_item.quantity += 1
     end
+    if @cart_item.save
+      render_success_response
+    else
+      render json: { errors: @cart_item.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def render_success_response
+    @cart_items = @cart_items.includes(:menu_item)
+    total_price = @cart_item.subtotal
+    render json: {
+      message: 'Item added to the cart successfully',
+      cart_items: current_user.cart_items.as_json(include: { menu_item: { only: %i[id name price] } }),
+      total_price: total_price
+    }, status: :created
+  end
+
+  def destroy
+    @cart_item = CartItem.find(params[:id])
+    @cart_item.destroy
+    render json: { message: 'Item removed from the cart successfully' }
   end
 
   private
 
   def cart_item_params
-    params.require(:cart_item).permit(:user_id, :cart_id, :quantity, :menu_id)
+    params.require(:cart_items).permit(:user_id, :quantity, :menu_item_id)
   end
 end

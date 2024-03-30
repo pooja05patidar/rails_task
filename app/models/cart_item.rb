@@ -2,7 +2,7 @@
 
 # cart item
 class CartItem < ApplicationRecord
-  belongs_to :cart
+  # belongs_to :cart
   belongs_to :menu_item, foreign_key: 'menu_item_id'
   paginates_per 5
 

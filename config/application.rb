@@ -10,6 +10,7 @@ Bundler.require(*Rails.groups)
 
 module RestaurantManagementApi
   class Application < Rails::Application
+    require 'dotenv/load' if Rails.env.development? || Rails.env.test?
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
     # Please, add to the `ignore` list any other `lib` subdirectories that do
@@ -24,7 +25,9 @@ module RestaurantManagementApi
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
+    # config.action_controller.default_url_options = {
+    #   config: Rails.application.config.config_for(:action_controller)[:default_url_options]
+    # }
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.

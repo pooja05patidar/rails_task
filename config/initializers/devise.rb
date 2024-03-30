@@ -271,7 +271,9 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :google_oauth2, ENV['GOOGLE-OAUTH2_CLIENT_ID'], ENV['GOOGLE-OAUTH2_CLIENT_SECRET'],{ scope: 'email' }
+  config.omniauth :google_oauth2,
+                  '1001749229758-dm6m952ghopiqptja99l518hsc4strfa.apps.googleusercontent.com',
+                  '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', { scope: 'email' }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
@@ -296,9 +298,10 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-  config.omniauth :google_oauth2,
-                  Rails.application.credentials.dig(:google_oauth_client_id),
-                  Rails.application.credentials.dig(:google_oauth_client_secret)
+  # config.omniauth :google_oauth2,
+  #                 Rails.application.credentials.dig(:google_oauth_client_id),
+  #                 Rails.application.credentials.dig(:google_oauth_client_secret)
+
   # ==> Hotwire/Turbo configuration
   # When using Devise with Hotwire/Turbo, the http status for error responses
   # and some redirects must match the following. The default in Devise for existing
