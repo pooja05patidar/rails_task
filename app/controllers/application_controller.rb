@@ -3,7 +3,7 @@
 # Application Controller
 class ApplicationController < ActionController::API
   include ActionController::RequestForgeryProtection
-  protect_from_forgery with: :exception
+  # protect_from_forgery with: :exception
   include ActionController::Helpers
   include ActionController::Cookies
   rescue_from CanCan::AccessDenied do |exception|
