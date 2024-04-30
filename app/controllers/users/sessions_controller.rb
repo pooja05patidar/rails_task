@@ -16,10 +16,10 @@ class Users::SessionsController < Devise::SessionsController
   #   respond_to_on_destroy
   # end
 
-  def index
-    @users = User.all
-    render json: @users
-  end
+  # def index
+  #   @users = User.all
+  #   render json: @users
+  # end
 
   def respond_with(current_user, _opts = {})
     render json: {
@@ -57,6 +57,7 @@ class Users::SessionsController < Devise::SessionsController
       status: 401,
       message: "Couldn't find an active session."
     }, status: :unauthorized
+    # redirect_to new_user_registration_url, notice: 'logged out successful'
   end
 
   def decode_jwt

@@ -1,0 +1,36 @@
+<div class='container'>
+    <h1>Restaurants</h1>
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Ratings</th>
+                <%# <th>Menu</th> %>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @restaurants.each do |restaurant| %>
+                <tr>
+                    <td><%= restaurant.id %></td>
+                    <td><%= restaurant.name %></td>
+                    <td><%= restaurant.description %></td>
+                    <td><%= restaurant.ratings %></td>
+                    <td>
+                        <%= link_to 'Show', restaurant_path(restaurant), class: 'btn btn-primary' %>
+                        <%= link_to 'Edit', edit_restaurant_path(restaurant), class: 'btn btn-secondary' %>
+                    </td>
+                    <td>
+                        <%# <% if restaurant.is_active? %> 
+                            <%# <%= button_to 'Active. Deactivate?', restaurant_path(restaurant.id), method: :delete %> 
+                        <%# <% else %>                             
+                            <%# <%= button_to 'Reactivate', reactivate_restaurant_path(restaurant.id) %> 
+                        <%# <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

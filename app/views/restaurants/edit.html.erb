@@ -1,0 +1,38 @@
+<div class="container">
+  <h1>Edit Restaurant</h1>
+
+  <%= form_with(model: @restaurant, local: true) do |form| %>
+    <% if @restaurant.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@restaurant.errors.count, "error") %> prohibited this restaurant from being saved:</h2>
+
+        <ul>
+          <% @restaurant.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :name %>
+      <br>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+    <br>
+    <div class="form-group">
+      <%= form.label :description %><br>
+      <%= form.text_area :description, class: "form-control" %>
+    </div>
+    <br>
+    <div class="form-group">
+      <%= form.label :ratings %><br>
+      <%= form.number_field :ratings, class: "form-control" %>
+    </div>
+    <br>
+    <div class="form-group">
+      <%= form.submit "Update Restaurant", class: "btn btn-primary" %><br>
+      <%= button_to "Cancel", restaurant_path(@restaurant), class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

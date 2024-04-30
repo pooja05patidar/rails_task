@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/models/cart_item_spec.rb
 
 require 'rails_helper'

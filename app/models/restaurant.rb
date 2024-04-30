@@ -8,7 +8,6 @@ class Restaurant < ApplicationRecord
   has_many :orders
   has_many :reviews, dependent: :destroy
   validates :name, presence: true, uniqueness: true
-
   attribute :ratings, :integer, default: 0
   attribute :is_active, :boolean, default: true
 end

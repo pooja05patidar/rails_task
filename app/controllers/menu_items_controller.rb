@@ -5,15 +5,17 @@ class MenuItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :pagination
   before_action :set_menu, only: %i[show update destroy]
-  load_and_authorize_resource
+  # load_and_authorize_resource
 
   def index
-    @menu_items = MenuItem.all
-    if params[:category].present?
-      MenuItem.where(category: params[:category])
-    else
-      @menu_items = MenuItem.all
-    end
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @menu_items = @restaurant.menu_items
+    # @menu_items = MenuItem.all
+    # if params[:category].present?
+    #   MenuItem.where(category: params[:category])
+    # else
+    #   @menu_items = MenuItem.all
+    # end
     # render json: @menu_items
   end
 

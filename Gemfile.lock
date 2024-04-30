@@ -135,6 +135,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
+    ffi (1.16.3)
     globalid (1.2.1)
       activesupport (>= 6.1)
     google-id-token (1.4.2)
@@ -315,6 +316,14 @@ GEM
     rswag-ui (2.13.0)
       actionpack (>= 3.1, < 7.2)
       railties (>= 3.1, < 7.2)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     sidekiq (7.2.2)
@@ -331,9 +340,17 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
+    sprockets (4.2.1)
+      concurrent-ruby (~> 1.0)
+      rack (>= 2.2.4, < 4)
+    sprockets-rails (3.4.2)
+      actionpack (>= 5.2)
+      activesupport (>= 5.2)
+      sprockets (>= 3.0.0)
     sqlite3 (1.7.2-x86_64-linux)
     stringio (3.1.0)
     thor (1.3.1)
+    tilt (2.3.0)
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -368,7 +385,6 @@ DEPENDENCIES
   google-id-token
   jbuilder
   kaminari
-  omniauth
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   puma (>= 5.0)
@@ -379,6 +395,7 @@ DEPENDENCIES
   rspec-rails
   rswag
   rswag-specs
+  sassc-rails
   shoulda-matchers
   sidekiq
   simplecov

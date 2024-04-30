@@ -1,0 +1,14 @@
+<%# app/views/restaurants/show.html.erb %>
+<div class='container'>
+    <% if @restaurant.is_active? %> 
+        <%# <%debugger%>
+        <h1>Name: <%= @restaurant.name %></h1>
+        <p>Description: <%= @restaurant.description %></p>
+        <p>Rating: <%= @restaurant.ratings %></p>
+        <%= link_to 'Edit', edit_restaurant_path(@restaurant), class: 'btn btn-primary' %>
+        <%= link_to 'Back', restaurants_path, class: 'btn btn-secondary' %>
+        <%= link_to 'Menu',restaurant_menu_items_path(@restaurant) %>
+    <% else %>
+        <p>Restaurant deactivated</p>
+    <% end %>
+</div>

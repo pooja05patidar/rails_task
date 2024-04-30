@@ -1,0 +1,25 @@
+<div class = 'container'>
+    <h3>Menu Items</h3>
+    <table class = 'table'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price(in rupees)</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @menu_items.each do |menu_item| %>
+                <tr>
+                    <td><%= menu_item.id %></td>
+                    <td><%= menu_item.name %></td>
+                    <td><%= menu_item.description %></td>
+                    <td><%= menu_item.price %></td>
+                    <td><%= menu_item.category %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

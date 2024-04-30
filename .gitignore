@@ -33,3 +33,5 @@
 /config/master.key
 .env
 devise.rb
+/app/assets/builds/*
+!/app/assets/builds/.keep

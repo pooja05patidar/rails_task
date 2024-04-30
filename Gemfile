@@ -49,9 +49,9 @@ group :development, :test do
   gem 'shoulda-matchers'
 end
 
-group :development do
-end
 gem 'active_model_serializers'
+# gem 'bootstrap'
+# gem 'bootstrap-sass'
 gem 'cancancan'
 gem 'devise'
 gem 'devise-jwt'
@@ -62,5 +62,6 @@ gem 'kaminari'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'ransack'
+gem 'sassc-rails'
 gem 'sidekiq'
 gem 'simplecov'
